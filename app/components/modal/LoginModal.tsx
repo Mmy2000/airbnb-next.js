@@ -21,6 +21,11 @@ const LoginModal = () => {
             type="password"
             className="w-full h-[54px] px-4 border border-gray-300 rounded-xl"
           />
+          <div
+            className="p-5 bg-airbnb text-white rounded-xl opacity-80"
+          >
+            error
+          </div>
           <CustomButton label="Submit" />
         </form>
       </>
