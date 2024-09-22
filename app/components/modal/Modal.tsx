@@ -1,9 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+interface ModalProps {
+  label: string;
+  close?: () => void;
+  content: React.ReactElement;
+  isOpen?: boolean;
+}
 
-
-const Modal: React.FC = () => {
+const Modal: React.FC<ModalProps> = ({label,content}) => {
 
   
 
@@ -31,9 +36,9 @@ const Modal: React.FC = () => {
                 </svg>
               </div>
 
-              <h2 className="text-lg font-bold">label</h2>
+              <h2 className="text-lg font-bold">{label}</h2>
             </header>
-            <section className="p-6">content</section>
+            <section className="p-6">{content}</section>
           </div>
         </div>
       </div>
