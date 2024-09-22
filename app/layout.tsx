@@ -36,7 +36,7 @@ export default function RootLayout({
       >
         <Navbar />
         <div className="pt-32">{children}</div>
-        <Modal label="test" content={content}/>
+        {/* <Modal label="test" content={content} isOpen={false}/> */}
       </body>
     </html>
   );
