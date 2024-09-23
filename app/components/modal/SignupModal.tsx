@@ -22,7 +22,7 @@ const SighnupModal = () => {
     };
     const response = await apiService.post(
       "/api/auth/register/",
-      formData
+      JSON.stringify(formData)
     );
     if (response.access) {
       SignupModal.close();
