@@ -4,6 +4,7 @@ import apiService from "@/app/services/apiService";
 import PropertyListItem from "./PropertyListItem";
 import { useEffect, useState } from "react";
 import Spinner from "../Spinner";
+import { toast } from "react-toastify";
 
 
 export type PropertyType = {
@@ -27,9 +28,9 @@ const PropertyList: React.FC<PropertyListProps> = ({landlord_id}) => {
         property.is_favorite = is_favorite;
 
         if (is_favorite) {
-          console.log("added to list of favorited propreties");
+          toast.success("added to list of favorite propreties");
         } else {
-          console.log("removed from list");
+          toast.success("removed from favorite propreties");
         }
       }
 
