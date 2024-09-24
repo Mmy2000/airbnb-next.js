@@ -5,7 +5,7 @@ import PropertyListItem from "./PropertyListItem";
 import { useEffect, useState } from "react";
 import Spinner from "../Spinner";
 import { toast } from "react-toastify";
-
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 export type PropertyType = {
   id: string;
@@ -17,28 +17,34 @@ export type PropertyType = {
 interface PropertyListProps {
   landlord_id?: string | null;
   favorites?: boolean | null;
+  userId: string | null;
 }
 
-const PropertyList: React.FC<PropertyListProps> = ({landlord_id}) => {
+const PropertyList: React.FC<PropertyListProps> = ({ landlord_id, userId }) => {
+  const loginModal = useLoginModal();
   const [properties, setProperties] = useState<PropertyType[]>([]);
   const [loading, setLoading] = useState(true); // Loading state
   const markFavorite = (id: string, is_favorite: boolean) => {
     const tmpProperties = properties.map((property: PropertyType) => {
-      if (property.id == id) {
-        property.is_favorite = is_favorite;
+      if (userId) {
+        if (property.id == id) {
+          property.is_favorite = is_favorite;
 
-        if (is_favorite) {
-          toast.success("added to list of favorite propreties");
-        } else {
-          toast.success("removed from favorite propreties");
+          if (is_favorite) {
+            toast.success("added to list of favorite propreties");
+          } else {
+            toast.success("removed from favorite propreties");
+          }
         }
+      } else {
+        loginModal.open();
       }
 
       return property;
     });
 
     setProperties(tmpProperties);
-  };
+  };  
 
   const getProperties = async () => {
     setLoading(true); // Start loading
