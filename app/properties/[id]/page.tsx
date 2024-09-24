@@ -1,12 +1,15 @@
 import ReservationSidebar from "@/app/components/properties/ReservationSidebar";
 import Image from "next/image";
+import apiService from "@/app/services/apiService";
 
-const PropertyDetailPage = () => {
+
+const PropertyDetailPage = async ({ params }: { params: { id: string } }) => {
+  const property = await apiService.get(`/api/properties/${params.id}`);
   return (
     <main className="max-w-[1500px] mx-auto px-6">
       <div className="w-full h-[64vh] mb-4 overflow-hidden rounded-xl relative">
         <Image
-          src="/beach_1.jpg"
+          src={property.image_url}
           fill
           sizes="(max-width: 768px) 768px, (max-width: 1200px): 768px, 768px"
           className="object-cover w-full h-full"
@@ -15,31 +18,34 @@ const PropertyDetailPage = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <div className="py-6 pr-6 col-span-3">
-          <h1 className="mb-4 text-4xl">Property Name</h1>
+          <h1 className="mb-4 text-4xl">{property.title}</h1>
           <span className="mb-6 block text-lg text-gray-600">
-            10 guests - 15 bedrooms - 2 bathrooms
+            {property.guests} guests - {property.bedrooms} bedrooms -{" "}
+            {property.bathrooms} bathrooms
           </span>
 
           <hr />
           <div className="py-6 flex items-center space-x-4">
-            <Image
-              src="/profile_pic_1.jpg"
-              width={50}
-              height={50}
-              className="rounded-full"
-              alt="The user name"
-            />
+            {property.landlord.avatar_url && (
+              <Image
+                src={property.landlord.avatar_url}
+                width={50}
+                height={50}
+                className="rounded-full"
+                alt="The user name"
+              />
+            )}
 
             <p>
-              <strong>name</strong> is your host
+              <strong>{property.landlord.name}</strong> is your host
             </p>
           </div>
           <hr />
 
-          <p className="mt-6 text-lg">description</p>
+          <p className="mt-6 text-lg">{property.description}</p>
         </div>
         <div>
-            <ReservationSidebar/>
+          <ReservationSidebar property={property} />
         </div>
       </div>
     </main>
