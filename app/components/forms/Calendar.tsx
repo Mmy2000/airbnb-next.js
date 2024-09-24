@@ -9,12 +9,14 @@ interface DatePickerProps {
   value: Range;
   onChange: (value: RangeKeyDict) => void;
   bookedDates?: Date[];
+  className?:string
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
   value,
   onChange,
   bookedDates,
+  className
 }) => {
   return (
     <DateRange

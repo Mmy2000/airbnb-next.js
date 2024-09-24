@@ -135,19 +135,29 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
     }
   }, [dateRange]);
   return (
-    <aside className="mt-6 p-6 col-span-2 rounded-xl border border-gray-300 shadow-xl">
-      <h2 className="mb-5 text-2xl">${property.price_per_night} per night</h2>
+    <aside className="mt-6 p-6 col-span-2 rounded-xl border border-gray-200 shadow-md">
+      <h2 className="mb-5 text-3xl font-semibold">
+        ${property.price_per_night}{" "}
+        <span className="text-lg font-normal">per night</span>
+      </h2>
+
+      {/* Date Picker */}
       <DatePicker
         value={dateRange}
         bookedDates={bookedDates}
         onChange={(value) => _setDateRange(value.selection)}
+        className="mb-6"
       />
-      <div className="mb-6 p-3 border border-gray-400 rounded-xl">
-        <label className="mb-2 block font-bold text-xs">Guests</label>
+
+      {/* Guests Selection */}
+      <div className="mb-6 p-4 border border-gray-300 rounded-lg">
+        <label className="block font-medium text-sm text-gray-700 mb-2">
+          Guests
+        </label>
         <select
           value={guests}
           onChange={(e) => setGuests(e.target.value)}
-          className="w-full -ml-1 text-xm"
+          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           {guestsRange.map((number) => (
             <option key={number} value={number}>
@@ -156,37 +166,36 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
           ))}
         </select>
       </div>
-      {/* <div
-        onClick={performBooking}
-        className="w-full mb-6 py-6 cursor-pointer text-center text-white transition-colors bg-airbnb hover:bg-airbnb-dark rounded-xl"
-      >
-        Book
-      </div> */}
+
+      {/* Booking Button */}
       <CustomButton
-        loading={loading} // Pass the loading state
+        loading={loading}
         disabled={loading}
         onClick={performBooking}
         label="Book"
-        className="mb-2"
+        className=" mb-6"
       />
-      <div className="mb-4 flex justify-between align-center">
-        <p>
-          ${property.price_per_night} * {nights} nights
+
+      {/* Price Breakdown */}
+      <div className="mb-4 flex justify-between items-center">
+        <p className="text-sm text-gray-600">
+          ${property.price_per_night} x {nights} nights
         </p>
-
-        <p>${property.price_per_night * nights}</p>
+        <p className="text-sm font-medium">
+          ${property.price_per_night * nights}
+        </p>
       </div>
 
-      <div className="mb-4 flex justify-between align-center">
-        <p>Djangobnb fee</p>
-
-        <p>${fee}</p>
+      <div className="mb-4 flex justify-between items-center">
+        <p className="text-sm text-gray-600">Djangobnb fee</p>
+        <p className="text-sm font-medium">${fee}</p>
       </div>
 
-      <hr />
-      <div className="mt-4 flex justify-between align-center font-bold">
+      <hr className="mb-4" />
+
+      {/* Total Price */}
+      <div className="mt-4 flex justify-between items-center font-bold text-lg">
         <p>Total</p>
-
         <p>${totalPrice}</p>
       </div>
     </aside>
