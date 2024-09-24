@@ -68,16 +68,17 @@ const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
             href={`/landlords/${property.landlord.id}`}
             className="py-6 flex items-center space-x-4"
           >
-            {property.landlord.avatar_url && (
               <Image
-                src={property.landlord.avatar_url}
+                src={
+                  property.landlord.avatar_url
+                    ? property.landlord.avatar_url
+                    : `/profile_pic_1.jpg`
+                }
                 width={50}
                 height={50}
                 className="rounded-full"
                 alt={property.landlord.name}
               />
-            )}
-
             <p>
               <strong>{property.landlord.name}</strong> is your host
             </p>
