@@ -43,8 +43,9 @@ const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <main className="max-w-[1500px] mx-auto px-6 pb-6">
-      <div className="w-full h-[64vh] mb-4 overflow-hidden rounded-xl relative">
+    <main className="max-w-[1200px] mx-auto px-6 pb-6">
+      {/* Image Section */}
+      <div className="w-full h-[60vh] md:h-[64vh] mb-4 overflow-hidden rounded-xl relative">
         <Image
           fill
           src={property.image_url}
@@ -53,7 +54,9 @@ const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
         />
       </div>
 
+      {/* Content Grid */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        {/* Left Content (Property Details) */}
         <div className="py-6 pr-6 col-span-3">
           <h1 className="mb-4 text-4xl">{property.title}</h1>
 
@@ -64,21 +67,18 @@ const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
 
           <hr />
 
+          {/* Host Information */}
           <Link
             href={`/landlords/${property.landlord.id}`}
             className="py-6 flex items-center space-x-4"
           >
-              <Image
-                src={
-                  property.landlord.avatar_url
-                    ? property.landlord.avatar_url
-                    : `/profile_pic_1.jpg`
-                }
-                width={50}
-                height={50}
-                className="rounded-full"
-                alt={property.landlord.name}
-              />
+            <Image
+              src={property.landlord.avatar_url || `/profile_pic_1.jpg`}
+              width={50}
+              height={50}
+              className="rounded-full"
+              alt={property.landlord.name}
+            />
             <p>
               <strong>{property.landlord.name}</strong> is your host
             </p>
@@ -86,10 +86,14 @@ const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
 
           <hr />
 
+          {/* Property Description */}
           <p className="mt-6 text-lg">{property.description}</p>
         </div>
 
-        <ReservationSidebar property={property} userId={userId} />
+        {/* Sidebar Component (Reservation) */}
+        <div className="col-span-2">
+          <ReservationSidebar property={property} userId={userId} />
+        </div>
       </div>
     </main>
   );

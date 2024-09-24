@@ -135,7 +135,7 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
     }
   }, [dateRange]);
   return (
-    <aside className="mt-6 p-6 col-span-2 rounded-xl border border-gray-200 shadow-md">
+    <aside className="mt-6 p-6 col-span-2 rounded-xl border border-gray-200 shadow-md max-w-md mx-auto">
       <h2 className="mb-5 text-3xl font-semibold">
         ${property.price_per_night}{" "}
         <span className="text-lg font-normal">per night</span>
