@@ -5,6 +5,7 @@ import apiService from "@/app/services/apiService";
 import { useState, useEffect } from "react";
 import { Range } from "react-date-range";
 import { differenceInDays, eachDayOfInterval, format } from "date-fns";
+import DatePicker from "../forms/Calendar";
 
 
 const initialDateRange = {
@@ -65,6 +66,11 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
   return (
     <aside className="mt-6 p-6 col-span-2 rounded-xl border border-gray-300 shadow-xl">
       <h2 className="mb-5 text-2xl">${property.price_per_night} per night</h2>
+      <DatePicker
+        value={dateRange}
+        bookedDates={bookedDates}
+        onChange={(value) => _setDateRange(value.selection)}
+      />
       <div className="mb-6 p-3 border border-gray-400 rounded-xl">
         <label className="mb-2 block font-bold text-xs">Guests</label>
         <select
