@@ -20,7 +20,7 @@ const LoginModal = () => {
       password: password,
     };
 
-    const response = await apiService.post(
+    const response = await apiService.postWithoutToken(
       "/api/auth/login/",
       JSON.stringify(formData)
     );
@@ -51,7 +51,7 @@ const LoginModal = () => {
           type="password"
           className="w-full h-[54px] px-4 border border-gray-300 rounded-xl"
         />
-        {errors.map((error, index) => {
+        {errors?.map((error, index) => {
           return (
             <div
               key={`error_${index}`}
