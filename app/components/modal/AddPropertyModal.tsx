@@ -15,6 +15,7 @@ const AddPropertyModal = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const totalSteps = 5; // Total number of steps
     const progressPercentage = (currentStep / totalSteps) * 100;
+    const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState<string[]>([]);
     const [dataCategory, setDataCategory] = useState("");
     const [dataTitle, setDataTitle] = useState("");
@@ -41,6 +42,7 @@ const AddPropertyModal = () => {
     };
 
     const submitForm = async () => {
+      setLoading(true);
         if (
           dataCategory &&
           dataTitle &&
@@ -81,6 +83,7 @@ const AddPropertyModal = () => {
 
               setErrors(tmpErrors);
             }
+            setLoading(false)
         }
     }
     
@@ -234,7 +237,12 @@ const AddPropertyModal = () => {
               className="mb-2 bg-black hover:bg-gray-800"
               onClick={() => setCurrentStep(4)}
             />
-            <CustomButton label="Submit" onClick={submitForm} />
+            <CustomButton
+              loading={loading} // Pass the loading state
+              disabled={loading}
+              label="Submit"
+              onClick={submitForm}
+            />
           </>
         )}
       </>
