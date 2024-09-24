@@ -1,13 +1,47 @@
+'use client'
 import ReservationSidebar from "@/app/components/properties/ReservationSidebar";
 import Image from "next/image";
 import apiService from "@/app/services/apiService";
 import { getUserId } from "@/app/lib/actions";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import SkeletonLoader from "@/app/components/SkeletonLoader";
 
 
-const PropertyDetailPage = async ({ params }: { params: { id: string } }) => {
-  const property = await apiService.get(`/api/properties/${params.id}`);
-  const userId = await getUserId()
+
+const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
+  const [property, setProperty] = useState<any>(null); // Specify any type or a more specific type for property
+  const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedProperty = await apiService.get(
+          `/api/properties/${params.id}`
+        );
+        const fetchedUserId = await getUserId();
+        setProperty(fetchedProperty);
+        setUserId(fetchedUserId);
+      } catch (error) {
+        console.error("Failed to load property data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [params.id]);
+
+  if (loading) {
+    return <SkeletonLoader />;
+  }
+
+  // Check if property is not null before accessing its properties
+  if (!property) {
+    return <div>Error: Property not found.</div>; // Optional error handling
+  }
+
   return (
     <main className="max-w-[1500px] mx-auto px-6 pb-6">
       <div className="w-full h-[64vh] mb-4 overflow-hidden rounded-xl relative">
@@ -40,7 +74,7 @@ const PropertyDetailPage = async ({ params }: { params: { id: string } }) => {
                 width={50}
                 height={50}
                 className="rounded-full"
-                alt="The user name"
+                alt={property.landlord.name}
               />
             )}
 
