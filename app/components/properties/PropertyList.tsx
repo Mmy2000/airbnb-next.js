@@ -21,6 +21,23 @@ interface PropertyListProps {
 const PropertyList: React.FC<PropertyListProps> = ({landlord_id}) => {
   const [properties, setProperties] = useState<PropertyType[]>([]);
   const [loading, setLoading] = useState(true); // Loading state
+  const markFavorite = (id: string, is_favorite: boolean) => {
+    const tmpProperties = properties.map((property: PropertyType) => {
+      if (property.id == id) {
+        property.is_favorite = is_favorite;
+
+        if (is_favorite) {
+          console.log("added to list of favorited propreties");
+        } else {
+          console.log("removed from list");
+        }
+      }
+
+      return property;
+    });
+
+    setProperties(tmpProperties);
+  };
 
   const getProperties = async () => {
     setLoading(true); // Start loading
@@ -45,7 +62,13 @@ const PropertyList: React.FC<PropertyListProps> = ({landlord_id}) => {
   return (
     <>
       {properties.map((property) => (
-        <PropertyListItem key={property.id} property={property} />
+        <PropertyListItem
+          markFavorite={(is_favorite: any) =>
+            markFavorite(property.id, is_favorite)
+          }
+          key={property.id}
+          property={property}
+        />
       ))}
     </>
   );
