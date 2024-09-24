@@ -17,10 +17,10 @@ export type PropertyType = {
 interface PropertyListProps {
   landlord_id?: string | null;
   favorites?: boolean | null;
-  userId: string | null;
+  userId?: string | null;
 }
 
-const PropertyList: React.FC<PropertyListProps> = ({ landlord_id, userId }) => {
+const PropertyList: React.FC<PropertyListProps> = ({ landlord_id, userId,favorites }) => {
   const loginModal = useLoginModal();
   const [properties, setProperties] = useState<PropertyType[]>([]);
   const [loading, setLoading] = useState(true); // Loading state
@@ -51,6 +51,8 @@ const PropertyList: React.FC<PropertyListProps> = ({ landlord_id, userId }) => {
     let url = "/api/properties/";
     if (landlord_id) {
       url += `?landlord_id=${landlord_id}`;
+    } else if (favorites){
+      url += "?is_favorites=true";
     }
     const tmpProperties = await apiService.get(url);
     setProperties(
