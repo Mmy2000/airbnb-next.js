@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { Range } from "react-date-range";
 import { differenceInDays, eachDayOfInterval, format } from "date-fns";
 import DatePicker from "../forms/Calendar";
+import CustomButton from "../forms/CustomButton";
 
 
 const initialDateRange = {
@@ -42,8 +43,10 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
     { length: property.guests },
     (_, index) => index + 1
   );
+  const [loading, setLoading] = useState(false);
 
   const performBooking = async () => {
+    setLoading(true);
      console.log("performBooking", userId);
 
      if (userId) {
@@ -72,6 +75,7 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
      } else {
        loginModal.open();
      }
+     setLoading(false);
    };
   const _setDateRange = (selection: any) => {
     const newStartDate = new Date(selection.startDate);
@@ -149,12 +153,19 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
           ))}
         </select>
       </div>
-      <div
+      {/* <div
         onClick={performBooking}
-        className="w-full mb-6 py-6 text-center text-white transition-colors bg-airbnb hover:bg-airbnb-dark rounded-xl"
+        className="w-full mb-6 py-6 cursor-pointer text-center text-white transition-colors bg-airbnb hover:bg-airbnb-dark rounded-xl"
       >
         Book
-      </div>
+      </div> */}
+      <CustomButton
+        loading={loading} // Pass the loading state
+        disabled={loading}
+        onClick={performBooking}
+        label="Book"
+        className="mb-2"
+      />
       <div className="mb-4 flex justify-between align-center">
         <p>
           ${property.price_per_night} * {nights} nights
