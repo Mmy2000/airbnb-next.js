@@ -42,6 +42,20 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
     { length: property.guests },
     (_, index) => index + 1
   );
+  const _setDateRange = (selection: any) => {
+    const newStartDate = new Date(selection.startDate);
+    const newEndDate = new Date(selection.endDate);
+
+    if (newEndDate <= newStartDate) {
+      newEndDate.setDate(newStartDate.getDate() + 1);
+    }
+
+    setDateRange({
+      ...dateRange,
+      startDate: newStartDate,
+      endDate: newEndDate,
+    });
+  };
 
   useEffect(() => {
 
