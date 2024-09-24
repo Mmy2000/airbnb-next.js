@@ -28,6 +28,14 @@ const AddPropertyModal = () => {
     const setCategory = (category: string) => {
       setDataCategory(category);
     };
+
+    const setImage = (event: ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files && event.target.files.length > 0) {
+        const tmpImage = event.target.files[0];
+
+        setDataImage(tmpImage);
+      }
+    };
     
     const content = (
       <>
@@ -141,11 +149,28 @@ const AddPropertyModal = () => {
           </>
         ) : (
           <>
+            <h2 className="mb-6 text-2xl">Image</h2>
+            <div className="pt-3 pb-6 space-y-4">
+              <div className="py-4 px-6 bg-gray-600 text-white rounded-xl">
+                <input type="file" accept="image/*" onChange={setImage} />
+              </div>
+              {dataImage && (
+                <div className="w-[200px] h-[150px] relative">
+                  <Image
+                    fill
+                    alt="Uploaded image"
+                    src={URL.createObjectURL(dataImage)}
+                    className="w-full h-full object-cover rounded-xl"
+                  />
+                </div>
+              )}
+            </div>
             <CustomButton
               label="Previous"
               className="mb-2 bg-black hover:bg-gray-800"
               onClick={() => setCurrentStep(4)}
             />
+            <CustomButton label="Submit" />
           </>
         )}
       </>
