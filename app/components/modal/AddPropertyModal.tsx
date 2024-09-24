@@ -13,6 +13,8 @@ import SelectCountry, { SelectCountryValue } from "../forms/SelectCountry";
 
 const AddPropertyModal = () => {
     const [currentStep, setCurrentStep] = useState(1);
+    const totalSteps = 5; // Total number of steps
+    const progressPercentage = (currentStep / totalSteps) * 100;
     const [errors, setErrors] = useState<string[]>([]);
     const [dataCategory, setDataCategory] = useState("");
     const [dataTitle, setDataTitle] = useState("");
@@ -84,6 +86,13 @@ const AddPropertyModal = () => {
     
     const content = (
       <>
+        {/* Progress Bar */}
+        <div className="relative w-full h-2 mb-6 bg-gray-200 rounded-full">
+          <div
+            className="absolute top-0 left-0 h-full bg-blue-500 rounded-full transition-all"
+            style={{ width: `${progressPercentage}%` }}
+          ></div>
+        </div>
         {currentStep == 1 ? (
           <>
             <h2 className="mb-6 text-2xl">Choose category</h2>
