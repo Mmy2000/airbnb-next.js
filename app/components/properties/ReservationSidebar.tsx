@@ -188,7 +188,7 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
 
       <div className="mb-4 flex justify-between items-center">
         <p className="text-sm text-gray-600">Djangobnb fee</p>
-        <p className="text-sm font-medium">${fee}</p>
+        <p className="text-sm font-medium">${fee.toFixed(2)}</p>
       </div>
 
       <hr className="mb-4" />
