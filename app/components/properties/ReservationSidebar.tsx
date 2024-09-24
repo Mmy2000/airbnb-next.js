@@ -7,6 +7,7 @@ import { Range } from "react-date-range";
 import { differenceInDays, eachDayOfInterval, format } from "date-fns";
 import DatePicker from "../forms/Calendar";
 import CustomButton from "../forms/CustomButton";
+import { toast } from "react-toastify";
 
 
 const initialDateRange = {
@@ -68,8 +69,10 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
 
          if (response.success) {
            console.log("Booking successful");
+           toast.success("Reserved successfully");
          } else {
            console.log("Something went wrong...");
+           toast.error("Reservations not comleted");
          }
        }
      } else {

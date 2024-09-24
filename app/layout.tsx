@@ -6,7 +6,8 @@ import Modal from "./components/modal/Modal";
 import LoginModal from "./components/modal/LoginModal";
 import SighnupModal from "./components/modal/SignupModal";
 import AddPropertyModal from "./components/modal/AddPropertyModal";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 const geistSans = localFont({
@@ -44,6 +45,7 @@ export default function RootLayout({
         <LoginModal/>
         <SighnupModal/>
         <AddPropertyModal/>
+        <ToastContainer/>
       </body>
     </html>
   );
