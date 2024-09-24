@@ -13,8 +13,10 @@ const LoginModal = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const submitLogin = async () => {
+    setLoading(true);
     const formData = {
       email: email,
       password: password,
@@ -34,6 +36,7 @@ const LoginModal = () => {
     } else {
       setErrors(response.non_field_errors);
     }
+    setLoading(false);
   };
   const content = (
     <>
@@ -61,7 +64,12 @@ const LoginModal = () => {
             </div>
           );
         })}
-        <CustomButton onClick={submitLogin} label="Submit" />
+        <CustomButton
+          loading={loading} // Pass the loading state
+          disabled={loading}
+          onClick={submitLogin}
+          label="Submit"
+        />
       </form>
     </>
   );

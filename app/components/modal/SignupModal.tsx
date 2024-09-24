@@ -7,15 +7,17 @@ import useSignupModal from "@/app/hooks/useSignupModal";
 import apiService from "@/app/services/apiService";
 import { handleLogin } from "@/app/lib/actions";
 
-const SighnupModal = () => {
+const SignupModal = () => {
   const router = useRouter();
   const SignupModal = useSignupModal();
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const submitSignup = async ()=>{
+  const submitSignup = async () => {
+    setLoading(true);
     const formData = {
       email: email,
       password1: password1,
@@ -36,13 +38,13 @@ const SighnupModal = () => {
 
       setErrors(tmpErrors);
     }
-
-  }
+    setLoading(false);
+  };
 
   const content = (
     <>
       <h2 className="mb-6 text-2xl">Welcome to djangobnb</h2>
-      <form action={submitSignup} className="space-y-4">
+      <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
         <input
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Your e-mail address"
@@ -71,7 +73,12 @@ const SighnupModal = () => {
             </div>
           );
         })}
-        <CustomButton onClick={submitSignup} label="Submit" />
+        <CustomButton
+          onClick={submitSignup}
+          label={loading ? "Submitting..." : "Submit"}
+          loading={loading} // Pass the loading state
+          disabled={loading} // Add this prop for spinner control
+        />
       </form>
     </>
   );
@@ -85,4 +92,4 @@ const SighnupModal = () => {
   );
 };
 
-export default SighnupModal;
+export default SignupModal;
