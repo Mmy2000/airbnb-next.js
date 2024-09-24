@@ -53,7 +53,17 @@ const PropertyList: React.FC<PropertyListProps> = ({ landlord_id, userId }) => {
       url += `?landlord_id=${landlord_id}`;
     }
     const tmpProperties = await apiService.get(url);
-    setProperties(tmpProperties.data);
+    setProperties(
+      tmpProperties.data.map((property: PropertyType) => {
+        if (tmpProperties.favorites.includes(property.id)) {
+          property.is_favorite = true;
+        } else {
+          property.is_favorite = false;
+        }
+
+        return property;
+      })
+    );
     setLoading(false); // Stop loading
   };
 
