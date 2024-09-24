@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import CustomButton from "../forms/CustomButton";
 import Categories from "../addproperty/Categories";
 import SelectCountry, { SelectCountryValue } from "../forms/SelectCountry";
+import { toast } from "react-toastify";
 
 
 const AddPropertyModal = () => {
@@ -69,12 +70,14 @@ const AddPropertyModal = () => {
             );
             if (response.success) {
               console.log("SUCCESS :-D");
+              toast.success("Property Added successfully");
 
               router.push("/");
 
               addPropertyModal.close();
             } else {
               console.log("Error");
+              toast.error("Property not added");
               const tmpErrors: string[] = Object.values(response).map(
                 (error: any) => {
                   return error;
