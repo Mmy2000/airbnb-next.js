@@ -8,13 +8,16 @@ import apiService from "../services/apiService";
 const MyReservations = async () => {
   const reservations = await apiService.get("/api/auth/myreservations/");
   return (
-    <main className="max-w-[1500px] mx-auto px-6">
+    <main className="max-w-[1200px] mx-auto px-6 mb-6">
       <h1 className="my-6 text-2xl">My reservations</h1>
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {reservations.map((reservation: any) => {
           return (
-            <div key={reservation.property.id} className="p-5 grid grid-cols-1 md:grid-cols-4 gap-4 shadow-md border border-gray-300 rounded-xl">
-              <div className="col-span-1">
+            <div
+              key={reservation.property.id}
+              className="p-5 grid grid-cols-1 lg:grid-cols-4 gap-4 shadow-md border border-gray-300 rounded-xl"
+            >
+              <div className="col-span-2">
                 <div className="relative overflow-hidden aspect-square rounded-xl">
                   <Image
                     fill
@@ -24,7 +27,7 @@ const MyReservations = async () => {
                   />
                 </div>
               </div>
-              <div className="col-span-1 md:col-span-3">
+              <div className="col-span-1 lg:col-span-2">
                 <h2 className="mb-4 text-xl">{reservation.property.title}</h2>
 
                 <p className="mb-2">
