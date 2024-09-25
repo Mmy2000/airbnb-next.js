@@ -8,6 +8,8 @@ import SighnupModal from "./components/modal/SignupModal";
 import AddPropertyModal from "./components/modal/AddPropertyModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
 const geistSans = localFont({

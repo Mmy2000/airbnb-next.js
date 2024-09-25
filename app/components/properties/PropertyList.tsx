@@ -12,6 +12,7 @@ export type PropertyType = {
   title: string;
   image_url: string;
   price_per_night: number;
+  property_images:string;
   is_favorite: boolean;
 };
 interface PropertyListProps {

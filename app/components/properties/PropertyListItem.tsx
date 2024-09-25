@@ -2,7 +2,7 @@ import Image from "next/image";
 import { PropertyType } from "./PropertyList";
 import { useRouter } from "next/navigation";
 import FavoriteButton from "../FavoriteButton";
-
+import Slider from "react-slick";
 
 interface PropertyProps {
   property: PropertyType;
@@ -14,6 +14,23 @@ const PropertyListItem: React.FC<PropertyProps> = ({
   markFavorite,
 }) => {
   const router = useRouter();
+  var settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+  const images = [
+    property.image_url, // Main image
+    ...(Array.isArray(property.property_images)
+      ? property.property_images.map(
+          (img) => (typeof img === "string" ? img : img.image_url) // Handle case for objects
+        )
+      : []),
+  ];
+  console.log(images);
+  
   return (
     <>
       <div
@@ -21,13 +38,21 @@ const PropertyListItem: React.FC<PropertyProps> = ({
         onClick={() => router.push(`/properties/${property.id}`)}
       >
         <div className="relative overflow-hidden aspect-square rounded-xl">
-          <Image
-            src={property.image_url}
-            fill
-            sizes="(max-width: 768px) 768px, (max-width: 1200px): 768px, 768px"
-            className="hover:scale-110 object-cover transition h-full w-full"
-            alt="Beach house"
-          />
+          <Slider {...settings}>
+            {images.map((image, index) => (
+              <div key={index} className="relative w-full h-0 pb-[100%]">
+                {image && (
+                  <Image
+                    src={image}
+                    fill
+                    sizes="(max-width: 768px) 768px, (max-width: 1200px) 768px, 768px"
+                    className="hover:scale-110 object-cover transition h-full w-full"
+                    alt={`Property Image ${index + 1}`}
+                  />
+                )}
+              </div>
+            ))}
+          </Slider>
           {markFavorite && (
             <FavoriteButton
               id={property.id}
