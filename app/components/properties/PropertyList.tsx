@@ -32,9 +32,9 @@ const PropertyList: React.FC<PropertyListProps> = ({ landlord_id, userId,favorit
           property.is_favorite = is_favorite;
 
           if (is_favorite) {
-            toast.success("added to list of favorite propreties");
+            toast.success("Added to Favorite Propreties");
           } else {
-            toast.success("removed from favorite propreties");
+            toast.success("Removed from Favorite");
           }
         }
       } else {
