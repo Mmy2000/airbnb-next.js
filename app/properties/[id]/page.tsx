@@ -6,7 +6,7 @@ import { getUserId } from "@/app/lib/actions";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import SkeletonLoader from "@/app/components/SkeletonLoader";
-
+import Slider from "react-slick";
 
 
 const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
@@ -41,17 +41,47 @@ const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
   if (!property) {
     return <div>Error: Property not found.</div>; // Optional error handling
   }
+  var settings = {
+    dots: true, // Enables dots
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true, // Optional: Automatically transitions between slides
+    autoplaySpeed: 3000, // Duration of autoplay in milliseconds
+    arrows: true, // Shows left/right arrows
+  };
+  const images = [
+    property.image_url, // Main image
+    ...(Array.isArray(property.property_images)
+      ? property.property_images.map(
+          (img:any) => (typeof img === "string" ? img : img.image_url) // Handle case for objects
+        )
+      : []),
+  ];
+  console.log(images);
+  
 
   return (
     <main className="max-w-[1200px] mx-auto px-6 pb-6">
       {/* Image Section */}
       <div className="w-full h-[60vh] md:h-[64vh] mb-4 overflow-hidden rounded-xl relative">
-        <Image
-          fill
-          src={property.image_url}
-          className="object-cover w-full h-full"
-          alt="Beach house"
-        />
+        <Slider {...settings}>
+          {images.map((image: string, index: number) => (
+            <div key={index} className="relative w-full h-[60vh] md:h-[64vh]">
+              {" "}
+              {/* Ensure a specific height */}
+              {image && (
+                <Image
+                  src={image}
+                  fill
+                  className="object-cover"
+                  alt={`Property Image ${index + 1}`}
+                />
+              )}
+            </div>
+          ))}
+        </Slider>
       </div>
 
       {/* Content Grid */}

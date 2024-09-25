@@ -1,6 +1,6 @@
 const SkeletonLoader = () => {
   return (
-    <div className="animate-pulse">
+    <div className="animate-pulse max-w-[1200px] mx-auto px-6 pb-6">
       <div className="w-full h-[64vh] mb-4 bg-gray-300 rounded-xl"></div>
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <div className="py-6 pr-6 col-span-3">
