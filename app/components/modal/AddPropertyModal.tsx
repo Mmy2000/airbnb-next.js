@@ -27,6 +27,7 @@ const AddPropertyModal = () => {
     const [dataGuests, setDataGuests] = useState("");
     const [dataCountry, setDataCountry] = useState<SelectCountryValue>();
     const [dataImage, setDataImage] = useState<File | null>(null);
+    const [dataImages, setDataImages] = useState<File[]>([]);
     const addPropertyModal = useAddPropertyModal();
     const router = useRouter();
 
@@ -39,6 +40,12 @@ const AddPropertyModal = () => {
         const tmpImage = event.target.files[0];
 
         setDataImage(tmpImage);
+      }
+    };
+    const setImages = (event: ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files && event.target.files.length > 0) {
+        const tmpImages = Array.from(event.target.files); // Convert FileList to an array
+        setDataImages(tmpImages); // Set the state with the array of images
       }
     };
 
@@ -214,8 +221,8 @@ const AddPropertyModal = () => {
           </>
         ) : (
           <>
-            <h2 className="mb-6 text-2xl">Image</h2>
-            <div className="pt-3 pb-6 space-y-4">
+            <h2 className="mb-2 text-2xl">Cover Image</h2>
+            <div className="pt-2 pb-6 space-y-4">
               <div className="py-4 px-6 bg-gray-600 text-white rounded-xl">
                 <input type="file" accept="image/*" onChange={setImage} />
               </div>
@@ -229,6 +236,33 @@ const AddPropertyModal = () => {
                   />
                 </div>
               )}
+            </div>
+            <h2 className="mb-2 text-2xl">More Image</h2>
+            <div className="pt-2 pb-6 space-y-4">
+              <div className="py-4 px-6 bg-gray-600 text-white rounded-xl">
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={setImages}
+                />
+              </div>
+              <div className="grid grid-cols-4 gap-4">
+                {" "}
+                {/* Add gap for spacing */}
+                {dataImages.map((image, index) => (
+                  <div key={index} className="w-full h-[150px] relative">
+                    {" "}
+                    {/* Set width to full */}
+                    <Image
+                      fill
+                      alt={`Uploaded image ${index + 1}`}
+                      src={URL.createObjectURL(image)}
+                      className="object-cover rounded-xl" // Remove width and height, handled by parent
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
             {errors.map((error, index) => {
               return (
