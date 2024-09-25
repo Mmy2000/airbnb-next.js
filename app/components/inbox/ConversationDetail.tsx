@@ -100,7 +100,11 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
                 : "bg-gray-200"
             }`}
           >
-            <p className="font-bold text-gray-500">{message.created_by.name}</p>
+            <p className="font-bold text-gray-500">
+              {message.created_by.name == myUser?.name
+                ? "You"
+                : message.created_by.name}
+            </p>
             <p>{message.body}</p>
           </div>
         ))}
@@ -114,7 +118,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
                 : "bg-gray-200"
             }`}
           >
-            <p className="font-bold text-gray-500">{message.name}</p>
+            <p className="font-bold text-gray-500">{message.name == myUser?.name ? "You" : message.name}</p>
             <p>{message.body}</p>
           </div>
         ))}
@@ -124,16 +128,12 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
         <input
           type="text"
           placeholder="Type your message..."
-          className="w-full p-2 bg-gray-200 rounded-xl"
+          className="w-3/4 p-2 bg-gray-200 rounded-xl"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
         />
 
-        <CustomButton
-          label="Send"
-          onClick={sendMessage}
-          className="w-[100px]"
-        />
+        <CustomButton label="Send" onClick={sendMessage} className="w-1/4" />
       </div>
     </>
   );
