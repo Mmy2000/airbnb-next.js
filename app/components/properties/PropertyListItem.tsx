@@ -35,10 +35,7 @@ const PropertyListItem: React.FC<PropertyProps> = ({
   
   return (
     <>
-      <div
-        className="cursor-pointer"
-        onClick={() => router.push(`/properties/${property.id}`)}
-      >
+      <div className="cursor-pointer">
         <div className="relative overflow-hidden aspect-square rounded-xl">
           <Slider {...settings}>
             {images.map((image, index) => (
@@ -63,13 +60,15 @@ const PropertyListItem: React.FC<PropertyProps> = ({
             />
           )}
         </div>
-        <div className="mt-2">
-          <p className="text-lg font-bold">{property.title}</p>
-        </div>
-        <div className="mt-2">
-          <p className="text-sm text-gray-500">
-            <strong>${property.price_per_night}</strong> per night
-          </p>
+        <div onClick={() => router.push(`/properties/${property.id}`)}>
+          <div className="mt-2">
+            <p className="text-lg font-bold">{property.title}</p>
+          </div>
+          <div className="mt-2">
+            <p className="text-sm text-gray-500">
+              <strong>${property.price_per_night}</strong> per night
+            </p>
+          </div>
         </div>
       </div>
     </>

@@ -48,3 +48,14 @@
     transform: rotate(360deg);
   }
 }
+
+.slick-prev {
+  left: 10px !important;
+}
+
+.slick-next {
+  right: 10px !important; 
+}
+.slick-dots{
+  bottom: 10px !important
+}
