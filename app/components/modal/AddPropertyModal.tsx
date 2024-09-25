@@ -93,11 +93,16 @@ const AddPropertyModal = () => {
     const content = (
       <>
         {/* Progress Bar */}
-        <div className="relative w-full h-2 mb-6 bg-gray-200 rounded-full">
-          <div
-            className="absolute top-0 left-0 h-full bg-airbnb rounded-full transition-all"
-            style={{ width: `${progressPercentage}%` }}
-          ></div>
+        <div className="mb-4">
+          <div className="flex justify-between mb-1">
+            <span className="text-sm font-semibold">{`Step ${currentStep} of ${totalSteps}`}</span>
+          </div>
+          <div className="relative w-full h-2 bg-gray-200 rounded-full">
+            <div
+              className="absolute top-0 left-0 h-full bg-airbnb rounded-full transition-all"
+              style={{ width: `${progressPercentage}%` }}
+            ></div>
+          </div>
         </div>
         {currentStep == 1 ? (
           <>
