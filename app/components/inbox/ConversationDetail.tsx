@@ -1,7 +1,34 @@
 'use client'
 import CustomButton from "../forms/CustomButton";
+import { useEffect, useState, useRef } from "react";
+import { ConversationType } from "@/app/inbox/page";
+import useWebSocket, { ReadyState } from "react-use-websocket";
 
-const ConversationDetails = () => {
+
+interface ConversationDetailProps {
+  token: string;
+  userId: string;
+  conversation: ConversationType;
+}
+
+const ConversationDetails: React.FC<ConversationDetailProps> = ({
+  conversation,
+  token,
+  userId
+}) => {
+  const myUser = conversation.users?.find((user) => user.id == userId);
+  const otherUser = conversation.users?.find((user) => user.id != userId);
+
+  const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
+    `${process.env.NEXT_PUBLIC_WS_HOST}/ws/${conversation.id}/?token=${token}`,
+    {
+      share: false,
+      shouldReconnect: () => true,
+    }
+  );
+  useEffect(() => {
+    console.log("Connection state changed", readyState);
+  }, [readyState]);
   return (
     <>
       <div className="max-h-[400px] overflow-auto flex flex-col space-y-4">
