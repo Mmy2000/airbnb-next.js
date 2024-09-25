@@ -18,13 +18,13 @@ const ConversationDetails = () => {
         <input
           type="text"
           placeholder="Type your message..."
-          className="w-full p-2 bg-gray-200 rounded-xl"
+          className="w-3/4 p-2 bg-gray-200 rounded-xl"
         />
 
         <CustomButton
           label="Send"
           onClick={() => console.log("clicked")}
-          className="w-[100px]"
+          className="w-1/4"
         />
       </div>
     </>

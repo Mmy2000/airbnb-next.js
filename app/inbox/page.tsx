@@ -27,7 +27,7 @@ const MyInbox = async () => {
   const conversations = await apiService.get("/api/chat/");
   
   return (
-    <main className="max-w-[1500px] mx-auto px-6 space-y-4">
+    <main className="max-w-[1200px] mx-auto px-6 space-y-4">
       <h1 className="my-6 text-2xl">My Inbox</h1>
       {conversations?.map((conversation: ConversationType) => {
         return (
