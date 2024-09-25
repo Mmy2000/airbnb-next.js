@@ -42,7 +42,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
-        <div className="pt-32">{children}</div>
+        <div className="pt-28">{children}</div>
         {/* <Modal label="test" content={content} isOpen={false}/> */}
         <LoginModal/>
         <SighnupModal/>
