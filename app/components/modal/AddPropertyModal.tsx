@@ -57,7 +57,8 @@ const AddPropertyModal = () => {
           dataDescription &&
           dataPrice &&
           dataCountry &&
-          dataImage
+          dataImage &&
+          dataImages
         ) {
             const formData = new FormData();
             formData.append("category", dataCategory);
@@ -70,6 +71,9 @@ const AddPropertyModal = () => {
             formData.append("country", dataCountry.label);
             formData.append("country_code", dataCountry.value);
             formData.append("image", dataImage);
+            dataImages.forEach((image) => {
+              formData.append("property_images", image); // Change the key if needed
+            });
 
             const response = await apiService.post(
               "/api/properties/create/",
@@ -275,15 +279,15 @@ const AddPropertyModal = () => {
               );
             })}
             <CustomButton
-              label="Previous"
-              className="mb-2 bg-black hover:bg-gray-800"
-              onClick={() => setCurrentStep(4)}
-            />
-            <CustomButton
               loading={loading} // Pass the loading state
               disabled={loading}
               label="Submit"
               onClick={submitForm}
+            />
+            <CustomButton
+              label="Previous"
+              className="mb-2 bg-black hover:bg-gray-800"
+              onClick={() => setCurrentStep(4)}
             />
           </>
         )}
