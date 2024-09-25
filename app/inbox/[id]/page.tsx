@@ -27,7 +27,7 @@ const ConversationPage = async ({ params }: { params: { id: string } }) => {
   
   const conversation = await apiService.get(`/api/chat/${params.id}/`);
   return (
-    <main className="max-w-[1200px] mx-auto px-6 pb-6">
+    <main className="max-w-[800px] mx-auto px-6 mt-10 pb-6">
       <ConversationDetails
         token={token}
         userId={userId}
