@@ -15,11 +15,14 @@ const PropertyListItem: React.FC<PropertyProps> = ({
 }) => {
   const router = useRouter();
   var settings = {
-    dots: true,
+    dots: true, // Enables dots
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true, // Optional: Automatically transitions between slides
+    autoplaySpeed: 3000, // Duration of autoplay in milliseconds
+    arrows: true, // Shows left/right arrows
   };
   const images = [
     property.image_url, // Main image
@@ -29,7 +32,6 @@ const PropertyListItem: React.FC<PropertyProps> = ({
         )
       : []),
   ];
-  console.log(images);
   
   return (
     <>
