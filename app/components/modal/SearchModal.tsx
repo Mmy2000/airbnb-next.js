@@ -14,6 +14,16 @@ const initialDateRange = {
   key: "selection",
 };
 
+// Define a type for steps
+type Step = "location" | "checkin" | "checkout" | "details";
+
+const stepMessages: Record<Step, string> = {
+  location: "Where do you want to go?",
+  checkin: "When do you want to check in?",
+  checkout: "When do you want to check out?",
+  details: "Details",
+};
+
 const SearchModal = () => {
   const searchModal = useSearchModal();
   const [numGuests, setNumGuests] = useState<string>("1");
@@ -22,10 +32,9 @@ const SearchModal = () => {
   const [numBathrooms, setNumBathrooms] = useState<string>("0");
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
-  // Define steps and calculate progress
-  const steps = ["location", "checkin", "checkout", "details"];
+  const steps: Step[] = ["location", "checkin", "checkout", "details"];
   const progress = useMemo(() => {
-    const currentStepIndex = steps.indexOf(searchModal.step);
+    const currentStepIndex = steps.indexOf(searchModal.step as Step);
     return ((currentStepIndex + 1) / steps.length) * 100;
   }, [searchModal.step]);
 
@@ -58,14 +67,12 @@ const SearchModal = () => {
   const contentLocation = (
     <>
       <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-        Where do you want to go?
+        {stepMessages.location}
       </h2>
-
       <SelectCountry
         value={country}
         onChange={(value) => setCountry(value as SelectCountryValue)}
       />
-
       <div className="mt-6 flex flex-row gap-4">
         <CustomButton
           label="Check in date ->"
@@ -79,14 +86,12 @@ const SearchModal = () => {
   const contentCheckin = (
     <>
       <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-        When do you want to check in?
+        {stepMessages.checkin}
       </h2>
-
       <DatePicker
         value={dateRange}
         onChange={(value) => _setDateRange(value.selection)}
       />
-
       <div className="mt-6 flex flex-row gap-4">
         <CustomButton
           label="<- Location"
@@ -105,14 +110,12 @@ const SearchModal = () => {
   const contentCheckout = (
     <>
       <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-        When do you want to check out?
+        {stepMessages.checkout}
       </h2>
-
       <DatePicker
         value={dateRange}
         onChange={(value) => _setDateRange(value.selection)}
       />
-
       <div className="mt-6 flex flex-row gap-4">
         <CustomButton
           label="<- Check in date"
@@ -130,8 +133,7 @@ const SearchModal = () => {
 
   const contentDetails = (
     <>
-      <h2 className="mb-4 text-2xl font-semibold text-gray-800">Details</h2>
-
+      <h2 className="mb-4 text-2xl font-semibold text-gray-800">{stepMessages.details}</h2>
       <div className="space-y-4">
         <div>
           <label className="block text-gray-700">Number of guests:</label>
@@ -144,7 +146,6 @@ const SearchModal = () => {
             className="w-full h-14 px-4 border border-gray-300 rounded-lg shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
         </div>
-
         <div>
           <label className="block text-gray-700">Number of bedrooms:</label>
           <input
@@ -156,7 +157,6 @@ const SearchModal = () => {
             className="w-full h-14 px-4 border border-gray-300 rounded-lg shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
         </div>
-
         <div>
           <label className="block text-gray-700">Number of bathrooms:</label>
           <input
@@ -169,7 +169,6 @@ const SearchModal = () => {
           />
         </div>
       </div>
-
       <div className="mt-6 flex flex-row gap-4">
         <CustomButton
           label="<- Check out date"
