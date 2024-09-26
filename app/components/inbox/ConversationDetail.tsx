@@ -7,6 +7,7 @@ import useWebSocket, { ReadyState } from "react-use-websocket";
 import { MessageType } from "@/app/inbox/[id]/page";
 import { UserType } from "@/app/inbox/page";
 
+
 interface ConversationDetailProps {
   token: string;
   userId: string;
@@ -73,6 +74,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
       });
 
     setNewMessage("");
+
 
     setTimeout(() => {
       scrollToBottom();
