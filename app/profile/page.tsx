@@ -3,11 +3,14 @@
 import React, { useEffect, useState } from "react";
 import apiService from "../services/apiService";
 import Spinner from "../components/Spinner";
+import useEditProfileModal from "../hooks/useEditProfileModal";
+
 
 const Profile = () => {
   const [profile, setProfile] = useState<any>(null); // Profile data state
   const [loading, setLoading] = useState<boolean>(true); // Loading state
   const [error, setError] = useState<string | null>(null); // Error state
+  const editProfile = useEditProfileModal()
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -93,7 +96,7 @@ const Profile = () => {
           {/* Edit Profile Button */}
           <div className="mt-8">
             <button
-              onClick={() => alert("Edit Profile feature coming soon!")}
+              onClick={editProfile.open}
               className="w-full bg-airbnb hover:bg-airbnb-dark text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
             >
               Edit Profile
