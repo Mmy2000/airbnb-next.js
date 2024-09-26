@@ -56,6 +56,18 @@ const MyReservations = async () => {
           );
         })}
       </div>
+      {/* Footer with CTA */}
+      <footer className="py-8 mt-12 bg-gray-100 text-center rounded-md shadow-sm">
+        <p className="text-lg text-gray-700">
+          Looking for another stay?
+          <a
+            href="/"
+            className="ml-2 text-airbnb hover:underline hover:text-airbnb-dark transition-colors"
+          >
+            Browse more properties
+          </a>
+        </p>
+      </footer>
     </main>
   );}
 
