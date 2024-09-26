@@ -82,7 +82,7 @@ const AddPropertyModal = () => {
         console.log("SUCCESS :-D");
         toast.success("Property Added successfully");
 
-        router.push("/");
+        router.push("/?added=true");
 
         addPropertyModal.close();
       } else {
