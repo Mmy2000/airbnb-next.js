@@ -141,12 +141,12 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
         <input
           type="text"
           placeholder="Type your message..."
-          className="w-3/4 p-2 bg-gray-200 rounded-xl"
+          className="w-full p-2 bg-gray-200 rounded-xl"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
         />
 
-        <CustomButton label="Send" onClick={sendMessage} className="w-1/4" />
+        <CustomButton label="Send" onClick={sendMessage} className="w-[80px]" />
       </div>
     </>
   );
