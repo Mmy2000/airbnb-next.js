@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useSearchModal from "@/app/hooks/useSearchModal";
 import { format } from "date-fns";
+import { useSearchParams } from "next/navigation";
 
 
 export type PropertyType = {
@@ -29,6 +30,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ landlord_id, userId,favorit
   const loginModal = useLoginModal();
   const searchModal = useSearchModal();
   
+  const params = useSearchParams();
   const country = searchModal.query.country;
   const numGuests = searchModal.query.guests;
   const numBathrooms = searchModal.query.bathrooms;
@@ -128,7 +130,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ landlord_id, userId,favorit
 
   useEffect(() => {
     getProperties();
-  }, [category, searchModal.query]);
+  }, [category, searchModal.query,params]);
 
   if (loading) {
     // Show spinner
