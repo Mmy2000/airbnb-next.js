@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import apiService from "../services/apiService";
+import Spinner from "../components/Spinner";
 
 const Profile = () => {
   const [profile, setProfile] = useState<any>(null); // Profile data state
@@ -30,11 +31,9 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-lg text-gray-500 animate-pulse">
-          Loading profile...
-        </div>
-      </div>
+      
+          <Spinner/>
+        
     );
   }
 
@@ -53,40 +52,41 @@ const Profile = () => {
         <div className="space-y-8">
           <div className="flex items-center space-x-6">
             <img
-              src={profile.image || "/default-avatar.png"} // Default avatar if not set
+              src={profile.image || "/profile_pic_1.jpg"} // Default avatar if not set
               alt="Profile Avatar"
               className="w-32 h-32 rounded-full border-4 border-airbnb"
             />
             <div>
               <h3 className="text-2xl font-semibold text-gray-900">
-                {profile.full_name || profile.name}
+                {profile.full_name || "Full Name Not Provided"}
               </h3>
               <h5 className="text-lg font-semibold text-gray-900">
-                {profile.headline}
+                {profile.headline || "No Headline Available"}
               </h5>
-              <p className="text-md text-gray-600">{profile.user.email}</p>
+              <p className="text-md text-gray-600">
+                {profile.user?.email || "Email Not Available"}
+              </p>
             </div>
           </div>
 
           <div className="border-t pt-6 space-y-4">
             <h4 className="text-lg font-semibold text-gray-700">Address</h4>
             <p className="text-gray-800">
-              {profile?.full_address || "Address not provided"}
+              {profile?.full_address || "Address Not Provided"}
             </p>
           </div>
 
           <div className="border-t pt-6 space-y-4">
             <h4 className="text-lg font-semibold text-gray-700">City</h4>
             <p className="text-gray-800">
-              {profile?.profile?.city || "City not provided"}
+              {profile?.profile?.city || "City Not Provided"}
             </p>
           </div>
 
-          {/* Add more sections here as needed */}
           <div className="border-t pt-6 space-y-4">
             <h4 className="text-lg font-semibold text-gray-700">About Me</h4>
             <p className="text-gray-800">
-              {profile?.about || "About information not provided"}
+              {profile?.about || "About Information Not Provided"}
             </p>
           </div>
 
