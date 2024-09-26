@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import SearchModal from "./components/modal/SearchModal";
 
 
 const geistSans = localFont({
@@ -45,6 +46,7 @@ export default function RootLayout({
         <LoginModal/>
         <SighnupModal/>
         <AddPropertyModal/>
+        <SearchModal/>
         <ToastContainer/>
       </body>
     </html>
