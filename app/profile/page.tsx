@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import apiService from "../services/apiService";
 import Spinner from "../components/Spinner";
 import useEditProfileModal from "../hooks/useEditProfileModal";
+import EditProfileModal from "../components/modal/EditProfileModal";
 
 
 const Profile = () => {
@@ -30,7 +31,9 @@ const Profile = () => {
     fetchProfile(); // Call the function when the component mounts
   }, [profile]); // Empty dependency array means this useEffect runs once on mount
 
-  console.log(profile);
+  const handleProfileUpdate = (updatedProfile: any) => {
+    setProfile(updatedProfile); // Update the profile with new data
+  };
 
   if (loading) {
     return (
@@ -103,6 +106,9 @@ const Profile = () => {
             </button>
           </div>
         </div>
+      )}
+      {editProfile.isOpen && (
+        <EditProfileModal onProfileUpdate={handleProfileUpdate} />
       )}
     </main>
   );

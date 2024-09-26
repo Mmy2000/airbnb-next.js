@@ -8,8 +8,11 @@ import { getAccessToken } from "@/app/lib/actions";
 import axios from "axios";
 import apiService from "@/app/services/apiService";
 
+interface EditProfileModalProps {
+  onProfileUpdate: (updatedProfile: any) => void; // Function to update profile
+}
 
-const EditProfileModal = () => {
+const EditProfileModal: React.FC<EditProfileModalProps> = ({onProfileUpdate}) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [address, setAddress] = useState("");
   const [about, setAbout] = useState("");
@@ -31,14 +34,18 @@ const EditProfileModal = () => {
     formData.append("headline", headline);
     formData.append("address_line_1", address_line_1);
     formData.append("city", city);
-    formData.append("name",name)
+    formData.append("name", name);
     if (image) formData.append("image", image); // Only append image if it's selected
 
     try {
-      const response = await apiService.put("/api/auth/profile/edit/", formData);
+      const response = await apiService.put(
+        "/api/auth/profile/edit/",
+        formData
+      );
 
       if (response) {
         console.log("Profile updated successfully");
+        onProfileUpdate(response.data);
         editProfile.close(); // Close modal after successful submission
       }
     } catch (error) {
