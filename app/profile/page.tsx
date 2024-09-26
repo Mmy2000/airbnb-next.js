@@ -46,7 +46,7 @@ const Profile = () => {
   }
 
   return (
-    <main className="max-w-2xl mx-auto py-10 px-6 bg-white shadow-lg rounded-lg border border-gray-200">
+    <main className="max-w-2xl mx-auto py-10 mb-6 px-6 bg-white shadow-lg rounded-lg border border-gray-200">
       <h2 className="text-3xl font-bold mb-6 text-gray-800">Profile</h2>
       {profile && (
         <div className="space-y-8">
