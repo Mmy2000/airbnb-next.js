@@ -50,6 +50,29 @@ const apiService = {
                 }))
         })
     },
+    put: async function(url: string, data: any): Promise<any> {
+        console.log('put', url, data);
+        const token = await getAccessToken();
+
+        return new Promise((resolve, reject) => {
+            fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`, {
+                method: 'PUT',
+                body: data,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(response => response.json())
+                .then((json) => {
+                    console.log('Response:', json);
+
+                    resolve(json);
+                })
+                .catch((error => {
+                    reject(error);
+                }))
+        })
+    },
     postWithoutToken: async function(url: string, data: any): Promise<any> {
         console.log('post', url, data);
 

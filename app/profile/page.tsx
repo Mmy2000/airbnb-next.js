@@ -28,7 +28,7 @@ const Profile = () => {
     };
 
     fetchProfile(); // Call the function when the component mounts
-  }, []); // Empty dependency array means this useEffect runs once on mount
+  }, [profile]); // Empty dependency array means this useEffect runs once on mount
 
   console.log(profile);
 
@@ -61,7 +61,7 @@ const Profile = () => {
             />
             <div>
               <h3 className="text-2xl font-semibold text-gray-900">
-                {profile.full_name || "Full Name Not Provided"}
+                {profile.full_name || profile.name || "Full Name Not Provided"}
               </h3>
               <h5 className="text-lg font-semibold text-gray-900">
                 {profile.headline || "No Headline Available"}
@@ -82,7 +82,7 @@ const Profile = () => {
           <div className="border-t pt-6 space-y-4">
             <h4 className="text-lg font-semibold text-gray-700">City</h4>
             <p className="text-gray-800">
-              {profile?.profile?.city || "City Not Provided"}
+              {profile?.city || "City Not Provided"}
             </p>
           </div>
 
