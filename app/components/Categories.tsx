@@ -43,8 +43,9 @@ const Categories = () => {
       </div>
       <div
         onClick={() => _setCategory("Beach")}
-        className="pb-4 flex flex-col items-center space-y-2 border-b-2 border-white
-        opacity-60 hover:border-gray-200 hover:opacity-100"
+        className={`pb-4 flex flex-col items-center space-y-2 border-b-2 ${
+          category == "Beach" ? "border-black" : "border-white"
+        } opacity-60 hover:border-gray-200 hover:opacity-100`}
       >
         <Image
           src="/icn_category_beach.jpeg"
@@ -57,8 +58,9 @@ const Categories = () => {
       </div>
       <div
         onClick={() => _setCategory("Villas")}
-        className="pb-4 flex flex-col items-center space-y-2 border-b-2 border-white
-        opacity-60 hover:border-gray-200 hover:opacity-100"
+        className={`pb-4 flex flex-col items-center space-y-2 border-b-2 ${
+          category == "Villas" ? "border-black" : "border-white"
+        } opacity-60 hover:border-gray-200 hover:opacity-100`}
       >
         <Image
           src="/icn_category_beach.jpeg"
@@ -71,8 +73,9 @@ const Categories = () => {
       </div>
       <div
         onClick={() => _setCategory("Tiny homes")}
-        className="pb-4 flex flex-col items-center space-y-2 border-b-2 border-white
-        opacity-60 hover:border-gray-200 hover:opacity-100"
+        className={`pb-4 flex flex-col items-center space-y-2 border-b-2 ${
+          category == "Tiny homes" ? "border-black" : "border-white"
+        } opacity-60 hover:border-gray-200 hover:opacity-100`}
       >
         <Image
           src="/icn_category_beach.jpeg"
@@ -85,8 +88,9 @@ const Categories = () => {
       </div>
       <div
         onClick={() => _setCategory("Cabins")}
-        className="pb-4 flex flex-col items-center space-y-2 border-b-2 border-white
-        opacity-60 hover:border-gray-200 hover:opacity-100"
+        className={`pb-4 flex flex-col items-center space-y-2 border-b-2 ${
+          category == "Cabins" ? "border-black" : "border-white"
+        } opacity-60 hover:border-gray-200 hover:opacity-100`}
       >
         <Image
           src="/icn_category_beach.jpeg"
