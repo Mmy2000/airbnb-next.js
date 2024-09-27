@@ -2,20 +2,19 @@
 
 import useEditProfileModal from "@/app/hooks/useEditProfileModal";
 import Modal from "./Modal";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import CustomButton from "../forms/CustomButton";
-import { getAccessToken } from "@/app/lib/actions";
-import axios from "axios";
 import apiService from "@/app/services/apiService";
 import ProgressBar from "../ProgressBar";
 import { toast } from "react-toastify";
-
 
 interface EditProfileModalProps {
   onProfileUpdate: (updatedProfile: any) => void; // Function to update profile
 }
 
-const EditProfileModal: React.FC<EditProfileModalProps> = ({onProfileUpdate}) => {
+const EditProfileModal: React.FC<EditProfileModalProps> = ({
+  onProfileUpdate,
+}) => {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 2;
   const [address, setAddress] = useState("");
@@ -29,6 +28,32 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({onProfileUpdate}) =>
   const [image, setImage] = useState<File | null>(null);
   const editProfile = useEditProfileModal();
   const [loading, setLoading] = useState(false);
+
+  // Fetch current profile data when modal opens
+  useEffect(() => {
+    if (editProfile.isOpen) {
+      const fetchProfileData = async () => {
+        try {
+          const response = await apiService.get("/api/auth/profile/");
+          const profileData = response;
+
+          // Set the state with the fetched profile data
+          setName(profileData.name || "");
+          setAddress(profileData.address || "");
+          setAbout(profileData.about || "");
+          setCountry(profileData.country || "");
+          setCompany(profileData.company || "");
+          setHeadline(profileData.headline || "");
+          setAddressLine1(profileData.address_line_1 || "");
+          setCity(profileData.city || "");
+        } catch (error) {
+          toast.error("Failed to load profile data");
+        }
+      };
+
+      fetchProfileData();
+    }
+  }, [editProfile.isOpen]);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -56,7 +81,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({onProfileUpdate}) =>
         editProfile.close(); // Close modal after successful submission
       }
     } catch (error) {
-      toast.success("Error updating profile");
+      toast.error("Error updating profile");
     }
     setLoading(false);
   };
@@ -69,7 +94,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({onProfileUpdate}) =>
           <h2 className="mb-8 text-3xl mt-4 font-semibold text-gray-800">
             About You
           </h2>
-          <div className="py-6  space-y-2">
+          <div className="py-6 space-y-2">
             <div className="flex px-3 flex-wrap -mx-3">
               {/* Name Input */}
               <div className="w-full md:w-1/2 px-3 mb-5">
@@ -197,29 +222,19 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({onProfileUpdate}) =>
                 </label>
                 <input
                   type="file"
-                  accept="image/*"
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-lg file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
-                  onChange={(e) =>
-                    setImage(e.target.files ? e.target.files[0] : null)
+                  className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setImage(e.target.files?.[0] || null)
                   }
                 />
               </div>
             </div>
           </div>
-
-          <div className="flex space-x-4">
-            <CustomButton
-              label="Previous"
-              className="bg-black hover:bg-gray-800 w-1/2"
-              onClick={() => setCurrentStep(currentStep - 1)}
-            />
-            <CustomButton
-              loading={loading}
-              label="Submit"
-              className="bg-airbnb hover:bg-airbnb-dark w-1/2"
-              onClick={handleSubmit}
-            />
-          </div>
+          <CustomButton
+            label={loading ? "Saving..." : "Save"}
+            onClick={handleSubmit}
+            disabled={loading}
+          />
         </>
       )}
     </>
@@ -227,9 +242,9 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({onProfileUpdate}) =>
 
   return (
     <Modal
-      label="Edit Profile"
       isOpen={editProfile.isOpen}
       close={editProfile.close}
+      label="Edit Your Profile"
       content={content}
     />
   );

@@ -9,9 +9,8 @@ const nextConfig = {
                 pathname: '/**'
             },
             {
-                protocol: 'http',
-                hostname: '64.226.81.32',
-                port: '1337',
+                protocol: 'https',
+                hostname: 'wardany2023.pythonanywhere.com',
                 pathname: '/**'
             }
         ]
