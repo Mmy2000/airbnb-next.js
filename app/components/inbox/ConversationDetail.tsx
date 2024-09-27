@@ -104,7 +104,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
           >
             <div className="flex items-center space-x-4">
               <img
-                src={message.created_by.avatar_url} // Ensure the image URL is available in the message data
+                src={message.created_by.avatar_url || "/profile_pic_1.jpg"} // Ensure the image URL is available in the message data
                 alt={message.created_by.name}
                 className="w-10 h-10 rounded-full"
               />
