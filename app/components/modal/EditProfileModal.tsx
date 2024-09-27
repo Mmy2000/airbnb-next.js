@@ -77,7 +77,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
 
       if (response) {
         toast.success("Profile updated successfully");
-        onProfileUpdate(response.data);
+        onProfileUpdate(response);
         editProfile.close(); // Close modal after successful submission
       }
     } catch (error) {

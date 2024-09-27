@@ -30,10 +30,10 @@ const Profile = () => {
     };
 
     fetchProfile(); // Call the function when the component mounts
-  }, [params]); // Empty dependency array to run only on component mount
+  }, []); // Empty dependency array to run only on component mount
 
   const handleProfileUpdate = (updatedProfile: any) => {
-    router.push("/profile/?updated=true");
+    
     setProfile(updatedProfile); // Update the profile with new data
     
   };
