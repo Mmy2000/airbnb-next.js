@@ -7,6 +7,9 @@ import CustomButton from "../forms/CustomButton";
 import { getAccessToken } from "@/app/lib/actions";
 import axios from "axios";
 import apiService from "@/app/services/apiService";
+import ProgressBar from "../ProgressBar";
+import { toast } from "react-toastify";
+
 
 interface EditProfileModalProps {
   onProfileUpdate: (updatedProfile: any) => void; // Function to update profile
@@ -14,6 +17,7 @@ interface EditProfileModalProps {
 
 const EditProfileModal: React.FC<EditProfileModalProps> = ({onProfileUpdate}) => {
   const [currentStep, setCurrentStep] = useState(1);
+  const totalSteps = 2;
   const [address, setAddress] = useState("");
   const [about, setAbout] = useState("");
   const [country, setCountry] = useState("");
@@ -24,7 +28,10 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({onProfileUpdate}) =>
   const [name, setName] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const editProfile = useEditProfileModal();
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async () => {
+    setLoading(true);
     const formData = new FormData();
 
     formData.append("address", address);
@@ -44,20 +51,22 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({onProfileUpdate}) =>
       );
 
       if (response) {
-        console.log("Profile updated successfully");
+        toast.success("Profile updated successfully");
         onProfileUpdate(response.data);
         editProfile.close(); // Close modal after successful submission
       }
     } catch (error) {
-      console.error("Error updating profile", error);
+      toast.success("Error updating profile");
     }
+    setLoading(false);
   };
 
   const content = (
     <>
+      <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
       {currentStep == 1 ? (
         <>
-          <h2 className="mb-8 text-3xl font-semibold text-gray-800">
+          <h2 className="mb-8 text-3xl mt-4 font-semibold text-gray-800">
             About You
           </h2>
           <div className="py-6  space-y-2">
@@ -111,7 +120,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({onProfileUpdate}) =>
         </>
       ) : (
         <>
-          <h2 className="mb-8 text-3xl font-semibold text-gray-800">
+          <h2 className="mb-8 mt-4 text-3xl font-semibold text-gray-800">
             Complete Your Profile
           </h2>
           <div className="py-6">
@@ -205,6 +214,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({onProfileUpdate}) =>
               onClick={() => setCurrentStep(currentStep - 1)}
             />
             <CustomButton
+              loading={loading}
               label="Submit"
               className="bg-airbnb hover:bg-airbnb-dark w-1/2"
               onClick={handleSubmit}
