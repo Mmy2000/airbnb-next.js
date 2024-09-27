@@ -16,7 +16,6 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         const response = await apiService.get("/api/auth/profile/");
-        console.log(response);
         setProfile(response); // Assuming API returns data in `data` field
       } catch (err: any) {
         setError(
@@ -28,7 +27,7 @@ const Profile = () => {
     };
 
     fetchProfile(); // Call the function when the component mounts
-  }, [profile]); // Dependency array to avoid infinite loop
+  }, [profile]); // Empty dependency array to run only on component mount
 
   const handleProfileUpdate = (updatedProfile: any) => {
     setProfile(updatedProfile); // Update the profile with new data
@@ -47,8 +46,8 @@ const Profile = () => {
   }
 
   return (
-    <main className="max-w-3xl mx-auto py-10 mb-6 px-8 bg-white shadow-lg rounded-lg border border-gray-300 transition duration-300 hover:shadow-xl">
-      <h2 className="text-4xl font-bold mb-8 text-gray-800 text-center">
+    <main className="max-w-3xl mx-auto py-6 mb-4 px-6 bg-white shadow-lg rounded-lg border border-gray-300 transition duration-300 hover:shadow-xl">
+      <h2 className="text-4xl font-bold mb-4 text-gray-800 text-center">
         User Profile
       </h2>
       {profile && (
