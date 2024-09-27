@@ -1,10 +1,9 @@
-'use client'
+"use client";
 
 import { useState } from "react";
 import MenuLink from "./MenuLink";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useSignupModal from "@/app/hooks/useSignupModal";
-import SighnupModal from "../modal/SignupModal";
 import LogoutButton from "../LogoutButton";
 import { useRouter } from "next/navigation";
 
@@ -14,19 +13,26 @@ interface UserNavProps {
 
 const UserNav: React.FC<UserNavProps> = ({ userId }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const SighnupModal = useSignupModal();
+  const signupModal = useSignupModal();
   const loginModal = useLoginModal();
   const router = useRouter();
-  
+
+  const handleToggle = () => setIsOpen((prev) => !prev);
+  const closeMenu = () => setIsOpen(false);
+
   return (
-    <div className="p-2 relative inline-block border rounded-full">
-      <button onClick={() => setIsOpen(!isOpen)} className="flex items-center">
+    <div className="relative inline-block">
+      <button
+        onClick={handleToggle}
+        className="flex items-center p-3 bg-white border border-gray-300 rounded-full shadow-md hover:shadow-lg transition-shadow duration-300 focus:outline-none focus:ring-2 focus:ring-airbnb"
+      >
+        {/* Hamburger Icon */}
         <svg
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth="1.5"
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-6 h-6 text-gray-800 hover:text-airbnb transition-colors"
         >
           <path
             strokeLinecap="round"
@@ -35,12 +41,13 @@ const UserNav: React.FC<UserNavProps> = ({ userId }) => {
           />
         </svg>
 
+        {/* User Icon */}
         <svg
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth="1.5"
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-6 h-6 text-gray-800 hover:text-airbnb transition-colors"
         >
           <path
             strokeLinecap="round"
@@ -50,65 +57,69 @@ const UserNav: React.FC<UserNavProps> = ({ userId }) => {
         </svg>
       </button>
       {isOpen && (
-        <div className="w-[220px] absolute top-[60px] right-0 bg-white border rounded-xl shadow-md flex flex-col cursor-pointer">
-          {userId ? (
-            <>
-              <MenuLink
-                label="Profile"
-                onClick={() => {
-                  setIsOpen(false);
-                  router.push("/profile");
-                }}
-              />
-              <MenuLink
-                label="My Properties"
-                onClick={() => {
-                  setIsOpen(false);
-                  router.push("/myproperties");
-                }}
-              />
-              <MenuLink
-                label="My Reservations"
-                onClick={() => {
-                  setIsOpen(false);
-                  router.push("/myreservations");
-                }}
-              />
-              <MenuLink
-                label="My Favorite"
-                onClick={() => {
-                  setIsOpen(false);
-                  router.push("/myfavorites");
-                }}
-              />
-              <MenuLink
-                label="My Inbox"
-                onClick={() => {
-                  setIsOpen(false);
-                  router.push("/inbox");
-                }}
-              />
-
-              <LogoutButton />
-            </>
-          ) : (
-            <>
-              <MenuLink
-                label="Login"
-                onClick={() => {
-                  setIsOpen(false);
-                  loginModal.open();
-                }}
-              />
-              <MenuLink
-                label="Signup"
-                onClick={() => {
-                  setIsOpen(false);
-                  SighnupModal.open();
-                }}
-              />
-            </>
-          )}
+        <div className="absolute top-[60px] right-0 w-[300px] bg-white border border-gray-300 rounded-lg shadow-lg py-4 flex flex-col z-50 transition-all duration-200 ease-in-out">
+          <div className="flex flex-col">
+            {userId ? (
+              <>
+                <MenuLink
+                  label="Profile"
+                  onClick={() => {
+                    closeMenu();
+                    router.push("/profile");
+                  }}
+                />
+                <MenuLink
+                  label="My Properties"
+                  onClick={() => {
+                    closeMenu();
+                    router.push("/myproperties");
+                  }}
+                />
+                <MenuLink
+                  label="My Reservations"
+                  onClick={() => {
+                    closeMenu();
+                    router.push("/myreservations");
+                  }}
+                />
+                <MenuLink
+                  label="My Favorite"
+                  onClick={() => {
+                    closeMenu();
+                    router.push("/myfavorites");
+                  }}
+                />
+                <MenuLink
+                  label="My Inbox"
+                  onClick={() => {
+                    closeMenu();
+                    router.push("/inbox");
+                  }}
+                />
+                <div className="border-t border-gray-200 my-2" />
+                <div className="flex justify-center">
+                  <LogoutButton />
+                </div>
+              </>
+            ) : (
+              <>
+                <MenuLink
+                  label="Login"
+                  onClick={() => {
+                    closeMenu();
+                    loginModal.open();
+                  }}
+                />
+                <MenuLink
+                  label="Signup"
+                  onClick={() => {
+                    closeMenu();
+                    signupModal.open();
+                  }}
+                />
+              </>
+            )}
+          </div>
         </div>
       )}
     </div>

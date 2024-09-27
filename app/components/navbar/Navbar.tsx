@@ -5,25 +5,30 @@ import UserNav from "./UserNav";
 import AddPropertyButton from "./AddPropertyButton";
 import { getUserId } from "@/app/lib/actions";
 
-
-const Navbar = async() => {
+const Navbar = async () => {
   const userId = await getUserId();
   return (
-    <nav className="w-full fixed top-0 left-0 py-4 border-b bg-white z-10">
-      <div className="max-w-[1500px] mx-auto px-6">
+    <nav className="w-full fixed top-0 left-0 py-3 bg-white z-20 shadow-sm transition-all duration-300">
+      <div className="max-w-[1400px] mx-auto px-4 lg:px-8">
         <div className="flex justify-between items-center">
-          <Link href="/">
+          {/* Logo Section */}
+          <Link href="/" className="flex items-center space-x-2">
             <Image
               src="/Airbnb_Logo.png"
               alt="DjangoBnb logo"
               width={120}
               height={36}
+              className="hover:opacity-90 transition-opacity duration-300"
             />
           </Link>
-          <div className="flex space-x-6">
+
+          {/* Search Filters */}
+          <div className="hidden lg:flex space-x-8">
             <SearchFilters />
           </div>
-          <div className="flex items-center space-x-6">
+
+          {/* User Actions (Property Button + User Nav) */}
+          <div className="flex items-center space-x-4 lg:space-x-6">
             <AddPropertyButton userId={userId} />
             <UserNav userId={userId} />
           </div>
