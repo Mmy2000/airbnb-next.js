@@ -101,7 +101,7 @@ const Profile = () => {
           <div className="mt-8">
             <button
               onClick={editProfile.open}
-              className="w-full bg-airbnb hover:bg-airbnb text-white font-semibold py-3 px-4 rounded-lg shadow-lg transition duration-300 transform hover:scale-105"
+              className="w-full bg-airbnb hover:bg-airbnb-dark text-white font-semibold py-3 px-4 rounded-lg shadow-lg transition duration-300 transform hover:scale-y-105"
             >
               Edit Profile
             </button>

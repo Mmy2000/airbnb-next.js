@@ -29,34 +29,36 @@ const LoginModal = () => {
 
     if (response.access) {
       handleLogin(response.user.pk, response.access, response.refresh);
-
       loginModal.close();
     } else {
       setErrors(response.non_field_errors);
     }
     setLoading(false);
   };
+
   const content = (
-    <>
-      <h2 className="mb-6 text-2xl">Welcome to djangobnb</h2>
+    <div className="px-6 py-4">
+      <h2 className="mb-6 text-3xl font-semibold text-gray-800 text-center">
+        Welcome to djangobnb
+      </h2>
       <form action={submitLogin} className="space-y-4">
         <input
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Your e-mail address"
           type="email"
-          className="w-full h-[54px] px-4 border border-gray-300 rounded-xl"
+          className="w-full h-[54px] px-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
         />
         <input
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Your password"
           type="password"
-          className="w-full h-[54px] px-4 border border-gray-300 rounded-xl"
+          className="w-full h-[54px] px-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
         />
         {errors?.map((error, index) => {
           return (
             <div
               key={`error_${index}`}
-              className="p-5 bg-airbnb text-white rounded-xl opacity-80"
+              className="p-4 bg-red-500 text-white rounded-xl opacity-90"
             >
               {error}
             </div>
@@ -67,10 +69,12 @@ const LoginModal = () => {
           disabled={loading}
           onClick={submitLogin}
           label="Submit"
+          className="w-full bg-airbnb hover:bg-airbnb-dark text-white font-bold py-2 rounded-xl transition duration-200"
         />
       </form>
-    </>
+    </div>
   );
+
   return (
     <Modal
       isOpen={loginModal.isOpen}
