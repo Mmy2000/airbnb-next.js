@@ -104,7 +104,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
           >
             <div className="flex items-center space-x-4">
               <img
-                src={message.created_by.avatar_url || "/profile_pic_1.jpg"} // Ensure the image URL is available in the message data
+                src={message?.created_by?.avatar_url || "/profile_pic_1.jpg"} // Ensure the image URL is available in the message data
                 alt={message.created_by.name}
                 className="w-10 h-10 rounded-full"
               />
@@ -129,10 +129,19 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
                 : "bg-gray-200"
             }`}
           >
-            <p className="font-bold text-gray-500">
-              {message.name == myUser?.name ? "You" : message.name}
-            </p>
-            <p>{message.body}</p>
+            <div className="flex items-center space-x-4">
+              <img
+                src={message.created_by?.avatar_url? message.created_by.avatar_url:message.sent_to.avatar_url || "/profile_pic_1.jpg"} // Use the avatar_url from the realtimeMessages
+                alt={message.name}
+                className="w-10 h-10 rounded-full"
+              />
+              <div>
+                <p className="font-bold text-gray-500">
+                  {message.name === myUser?.name ? "You" : message.name}
+                </p>
+                <p>{message.body}</p>
+              </div>
+            </div>
           </div>
         ))}
       </div>
