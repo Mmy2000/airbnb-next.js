@@ -24,14 +24,6 @@ const MyProperties = async () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         <PropertyList userId={userId} landlord_id={userId} />
       </div>
-
-      {/* Footer with CTA */}
-      <footer className="py-8 mt-12 bg-gray-100 text-center rounded-md shadow-sm">
-        <p className="text-lg text-gray-700">
-          No Properties Found ...
-          
-        </p>
-      </footer>
     </main>
   );
 };

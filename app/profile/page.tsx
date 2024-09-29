@@ -67,10 +67,10 @@ const Profile = () => {
               <h3 className="text-3xl font-semibold text-gray-900">
                 {profile.full_name || profile.name || "Full Name Not Provided"}
               </h3>
-              <h5 className="text-lg font-semibold text-gray-700">
+              <h5 className="text-lg text-center font-semibold text-gray-700">
                 {profile.headline || "No Headline Available"}
               </h5>
-              <p className="text-md text-gray-600">
+              <p className="text-md text-center text-gray-600">
                 {profile.user?.email || "Email Not Available"}
               </p>
             </div>

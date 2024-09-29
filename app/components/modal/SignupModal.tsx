@@ -6,6 +6,7 @@ import CustomButton from "../forms/CustomButton";
 import useSignupModal from "@/app/hooks/useSignupModal";
 import apiService from "@/app/services/apiService";
 import { handleLogin } from "@/app/lib/actions";
+import { toast } from "react-toastify";
 
 const SignupModal = () => {
   const router = useRouter();
@@ -29,6 +30,7 @@ const SignupModal = () => {
     );
     if (response.access) {
       handleLogin(response.user.pk, response.access, response.refresh);
+      toast.success("Signed in successfully");
       signupModal.close();
       router.push("/profile");
     } else {

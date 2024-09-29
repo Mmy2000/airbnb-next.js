@@ -6,6 +6,7 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import CustomButton from "../forms/CustomButton";
 import apiService from "@/app/services/apiService";
 import { handleLogin } from "@/app/lib/actions";
+import { toast } from "react-toastify";
 
 const LoginModal = () => {
   const router = useRouter();
@@ -29,6 +30,7 @@ const LoginModal = () => {
 
     if (response.access) {
       handleLogin(response.user.pk, response.access, response.refresh);
+      toast.success("Loged in successfully");
       loginModal.close();
     } else {
       setErrors(response.non_field_errors);

@@ -28,7 +28,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
   const [realtimeMessages, setRealtimeMessages] = useState<MessageType[]>([]);
 
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
-    `ws://127.0.0.1:8000/ws/${conversation.id}/?token=${token}`,
+    `${process.env.NEXT_PUBLIC_WS_HOST}${conversation.id}/?token=${token}`,
     {
       share: false,
       shouldReconnect: () => true,
@@ -96,7 +96,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
         {messages?.map((message, index) => (
           <div
             key={index}
-            className={`w-[80%]py-4 px-6 py-2 rounded-xl ${
+            className={`w-[80%] py-2 px-6 rounded-xl ${
               message.created_by.name == myUser?.name
                 ? "ml-[20%] bg-blue-200"
                 : "bg-gray-200"
@@ -123,7 +123,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
         {realtimeMessages.map((message, index) => (
           <div
             key={index}
-            className={`w-[80%]py-4 px-6 rounded-xl ${
+            className={`w-[80%] py-2 px-6 rounded-xl ${
               message.name == myUser?.name
                 ? "ml-[20%] bg-blue-200"
                 : "bg-gray-200"
@@ -131,7 +131,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
           >
             <div className="flex items-center space-x-4">
               <img
-                src={message.created_by?.avatar_url? message.created_by.avatar_url:message.sent_to.avatar_url || "/profile_pic_1.jpg"} // Use the avatar_url from the realtimeMessages
+                src={message.name == myUser?.name?message.created_by.avatar_url:message.sent_to.avatar_url || "/profile_pic_1.jpg"} // Use the avatar_url from the realtimeMessages
                 alt={message.name}
                 className="w-10 h-10 rounded-full"
               />

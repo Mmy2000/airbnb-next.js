@@ -1,4 +1,5 @@
-'use client'
+"use client";
+
 import ReservationSidebar from "@/app/components/properties/ReservationSidebar";
 import Image from "next/image";
 import apiService from "@/app/services/apiService";
@@ -8,9 +9,8 @@ import { useEffect, useState } from "react";
 import SkeletonLoader from "@/app/components/SkeletonLoader";
 import Slider from "react-slick";
 
-
 const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
-  const [property, setProperty] = useState<any>(null); // Specify any type or a more specific type for property
+  const [property, setProperty] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -39,28 +39,28 @@ const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
 
   // Check if property is not null before accessing its properties
   if (!property) {
-    return <div>Error: Property not found.</div>; // Optional error handling
+    return <div>Error: Property not found.</div>;
   }
-  var settings = {
-    dots: true, // Enables dots
+
+  const settings = {
+    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true, // Optional: Automatically transitions between slides
-    autoplaySpeed: 3000, // Duration of autoplay in milliseconds
-    arrows: true, // Shows left/right arrows
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: true,
   };
+
   const images = [
-    property.image_url, // Main image
+    property.image_url,
     ...(Array.isArray(property.property_images)
-      ? property.property_images.map(
-          (img:any) => (typeof img === "string" ? img : img.image_url) // Handle case for objects
+      ? property.property_images.map((img: any) =>
+          typeof img === "string" ? img : img.image_url
         )
       : []),
   ];
-  console.log(images);
-  
 
   return (
     <main className="max-w-[1200px] mx-auto px-6 pb-6">
@@ -69,8 +69,6 @@ const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
         <Slider {...settings}>
           {images.map((image: string, index: number) => (
             <div key={index} className="relative w-full h-[60vh] md:h-[64vh]">
-              {" "}
-              {/* Ensure a specific height */}
               {image && (
                 <Image
                   src={image}
