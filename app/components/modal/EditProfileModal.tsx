@@ -7,6 +7,7 @@ import CustomButton from "../forms/CustomButton";
 import apiService from "@/app/services/apiService";
 import ProgressBar from "../ProgressBar";
 import { toast } from "react-toastify";
+import React from "react";
 
 interface EditProfileModalProps {
   onProfileUpdate: (updatedProfile: any) => void; // Function to update profile

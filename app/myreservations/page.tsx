@@ -18,7 +18,7 @@ const MyReservations = async () => {
 
       {/* Reservations Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {reservations.map((reservation: any) => {
+        {reservations.map((reservation:any) => {
           return (
             <div
               key={reservation.property.id}
@@ -61,12 +61,18 @@ const MyReservations = async () => {
                   </p>
                 </div>
               </div>
-              <Link
-                href={`/properties/${reservation.property.id}`}
-                className=" col-span-4 items-center justify-center mx-auto inline-block py-3 px-5 bg-red-500 text-white text-center rounded-lg hover:bg-red-600 transition-colors"
-              >
-                View Property
-              </Link>
+              {/* Action Buttons */}
+              <div className="flex col-span-4 justify-between  space-x-4 ">
+                <Link
+                  href={`/properties/${reservation.property.id}`}
+                  className="inline-block py-2 px-4 bg-red-500 text-white text-center rounded-lg hover:bg-red-600 transition-colors"
+                >
+                  View Details
+                </Link>
+                <button className="inline-block py-2 px-4 bg-gray-300 text-gray-800 text-center rounded-lg hover:bg-gray-400 transition-colors">
+                  Cancel
+                </button>
+              </div>
             </div>
           );
         })}
