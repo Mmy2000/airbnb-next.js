@@ -10,6 +10,7 @@ import CustomButton from "../forms/CustomButton";
 import Categories from "../addproperty/Categories";
 import SelectCountry, { SelectCountryValue } from "../forms/SelectCountry";
 import { toast } from "react-toastify";
+import React from "react";
 
 const AddPropertyModal = () => {
   const [currentStep, setCurrentStep] = useState(1);

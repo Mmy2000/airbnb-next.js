@@ -1,11 +1,9 @@
-
 import PropertyList from "../components/properties/PropertyList";
 import { getUserId } from "../lib/actions";
 
-
 const MyProperties = async () => {
-
   const userId = await getUserId();
+
   return (
     <main className="max-w-[1200px] mx-auto px-6 pb-12">
       {/* Navigation (Breadcrumb) */}
@@ -22,7 +20,11 @@ const MyProperties = async () => {
 
       {/* Property List Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        <PropertyList userId={userId} landlord_id={userId} />
+        <PropertyList
+          userId={userId}
+          landlord_id={userId}
+          showEditDeleteButtons={true}
+        />
       </div>
     </main>
   );

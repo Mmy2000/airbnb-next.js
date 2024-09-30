@@ -6,6 +6,7 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import useSignupModal from "@/app/hooks/useSignupModal";
 import LogoutButton from "../LogoutButton";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 interface UserNavProps {
   userId?: string | null;

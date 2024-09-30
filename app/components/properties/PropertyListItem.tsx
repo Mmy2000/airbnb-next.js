@@ -3,36 +3,49 @@ import { PropertyType } from "./PropertyList";
 import { useRouter } from "next/navigation";
 import FavoriteButton from "../FavoriteButton";
 import Slider from "react-slick";
+import useEditPropertyModal from "@/app/hooks/useEditPropertyModal";
+import React from "react";
+import apiService from "@/app/services/apiService";
+import { MdEdit, MdDelete } from "react-icons/md";
+
 
 interface PropertyProps {
   property: PropertyType;
   markFavorite?: (is_favorite: boolean) => void;
+  onDelete: () => void; 
+  showEditDeleteButtons?: boolean; // New prop to show/hide Edit/Delete buttons
 }
 
 const PropertyListItem: React.FC<PropertyProps> = ({
   property,
   markFavorite,
+  onDelete, // Accept onDelete prop
+  showEditDeleteButtons = false, // Default to false
 }) => {
+  const editProperty = useEditPropertyModal(); // Access the modal hook
   const router = useRouter();
   var settings = {
-    dots: true, // Enables dots
+    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true, // Optional: Automatically transitions between slides
-    autoplaySpeed: 3000, // Duration of autoplay in milliseconds
-    arrows: true, // Shows left/right arrows
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: true,
   };
+
   const images = [
-    property.image_url, // Main image
+    property.image_url,
     ...(Array.isArray(property.property_images)
-      ? property.property_images.map(
-          (img) => (typeof img === "string" ? img : img.image_url) // Handle case for objects
+      ? property.property_images.map((img) =>
+          typeof img === "string" ? img : img.image_url
         )
       : []),
   ];
-  
+
+
+
   return (
     <>
       <div className="cursor-pointer">
@@ -70,6 +83,26 @@ const PropertyListItem: React.FC<PropertyProps> = ({
             </p>
           </div>
         </div>
+
+        {/* Edit and Delete buttons, shown only when showEditDeleteButtons is true */}
+        {showEditDeleteButtons && (
+          <div className="flex justify-between mt-4">
+            <button
+              onClick={editProperty.open} // Open the modal when clicked
+              className="flex items-center px-4 py-2 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+            >
+              <MdEdit className="w-5 h-5 mr-2" />
+              Edit
+            </button>
+            <button
+              onClick={onDelete}
+              className="flex items-center px-4 py-2 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition"
+            >
+              <MdDelete className="w-5 h-5 mr-2" />
+              Delete
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
