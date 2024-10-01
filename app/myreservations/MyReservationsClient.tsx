@@ -1,40 +1,59 @@
-"use client"; // Client component
-
-import { useState } from "react";
+'use client'
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import apiService from "../services/apiService";
+import ConfirmModal from "../components/modal/ConfirmModal";
+import { toast } from "react-toastify";
 
 // Assuming this is where the API service function is located
 
 const MyReservationsClient = ({ reservations }: { reservations: any[] }) => {
   const [loading, setLoading] = useState(false); // To handle loading state
   const [reservationList, setReservationList] = useState(reservations); // Keep track of the reservation list
+  const [showModal, setShowModal] = useState(false); // To show/hide modal
+  const [reservationToCancel, setReservationToCancel] = useState<any | null>(
+    null
+  ); // To store the reservation to cancel
+  const [currentId, setCurrentId] = useState<number | null>(null);
 
-  const cancelReservation = async (reservationId: any) => {
-    if (loading) return; // Prevent multiple requests
+  const openModal = (reservationId: any) => {
+    setReservationToCancel(reservationId); // Store the reservation ID to be canceled
+    setShowModal(true); // Show the confirmation modal
+  };
+
+  const closeModal = () => {
+    setShowModal(false); // Hide the confirmation modal
+    setReservationToCancel(null); // Clear the reservation to cancel
+  };
+
+  const cancelReservation = async () => {
+    if (loading || !reservationToCancel) return; // Prevent multiple requests
     setLoading(true);
 
     try {
+      const reservationId = reservationToCancel; // Get the reservation ID from the state
       // Use the provided delete method from the API service
       const response = await apiService.delete(
         `/api/properties/${reservationId}/cancel/`
       );
+      setCurrentId(reservationId);
 
       if (response.success) {
         // Update the local state to remove the canceled reservation
         setReservationList(
           reservationList.filter((r) => r.id !== reservationId)
         );
-        alert("Reservation canceled successfully.");
+        toast.success("Reservation canceled successfully.");
       } else {
-        alert(response.error || "Failed to cancel the reservation.");
+        toast.error("Failed to cancel the reservation.");
       }
     } catch (error) {
       console.error("Error cancelling reservation:", error);
-      alert("An error occurred while canceling the reservation.");
+      toast.error("An error occurred while canceling the reservation.");
     } finally {
       setLoading(false); // Reset loading state
+      closeModal();
     }
   };
 
@@ -103,16 +122,27 @@ const MyReservationsClient = ({ reservations }: { reservations: any[] }) => {
                 View Details
               </Link>
               <button
-                onClick={() => cancelReservation(reservation.id)}
+                onClick={() => openModal(reservation.id)}
                 className="inline-block py-2 px-4 bg-gray-300 text-gray-800 text-center rounded-lg hover:bg-gray-400 transition-colors"
-                disabled={loading}
+                disabled={loading && currentId === reservation.id}
               >
-                {loading ? "Cancelling..." : "Cancel"}
+                {loading && currentId === reservation.id
+                  ? "Cancelling..."
+                  : "Cancel"}
               </button>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Confirm Modal */}
+      <ConfirmModal
+        show={showModal}
+        onConfirm={cancelReservation}
+        onCancel={closeModal}
+        title="Cancel Reservation"
+        message="Are you sure you want to cancel this reservation?"
+      />
 
       {/* Footer with CTA */}
       <footer className="py-8 mt-12 bg-gray-50 text-center rounded-lg shadow-sm">
