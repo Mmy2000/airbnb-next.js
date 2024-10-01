@@ -1,8 +1,10 @@
 import Image from "next/image";
+import React from "react";
 
 interface CategoriesProps {
-  dataCategory: string;
+  dataCategory?: string;
   setCategory: (category: string) => void;
+  selectedCategory?: string;
 }
 
 const Categories: React.FC<CategoriesProps> = ({

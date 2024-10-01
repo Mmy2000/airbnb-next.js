@@ -49,7 +49,6 @@ export default function RootLayout({
         <SighnupModal/>
         <AddPropertyModal/>
         <SearchModal/>
-        <EditPropertyModal/>
         {/* <EditProfileModal/> */}
         <ToastContainer/>
       </body>

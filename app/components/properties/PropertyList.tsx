@@ -11,6 +11,7 @@ import { format } from "date-fns";
 import { useSearchParams } from "next/navigation";
 import ConfirmModal from "../modal/ConfirmModal"; // Import the ConfirmModal component
 import React from "react";
+import { SelectCountryValue } from "../forms/SelectCountry";
 
 export type PropertyType = {
   id: string;
@@ -19,6 +20,12 @@ export type PropertyType = {
   price_per_night: number;
   property_images: string;
   is_favorite: boolean;
+  description?: string;
+  category?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  guests?: number;
+  country?: SelectCountryValue;
 };
 
 interface PropertyListProps {

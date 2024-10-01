@@ -7,6 +7,7 @@ import useEditPropertyModal from "@/app/hooks/useEditPropertyModal";
 import React from "react";
 import apiService from "@/app/services/apiService";
 import { MdEdit, MdDelete } from "react-icons/md";
+import EditPropertyModal from "../modal/EditPropertyModal";
 
 
 interface PropertyProps {
@@ -104,6 +105,9 @@ const PropertyListItem: React.FC<PropertyProps> = ({
           </div>
         )}
       </div>
+      {editProperty.isOpen && (
+        <EditPropertyModal property={property}/>
+      )}
     </>
   );
 };

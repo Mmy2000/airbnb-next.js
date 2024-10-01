@@ -1,15 +1,18 @@
 "use client";
 
+import useEditPropertyModal from "@/app/hooks/useEditPropertyModal";
 import { useCallback, useEffect, useState } from "react";
 interface ModalProps {
   label: string;
   close: () => void;
   content: React.ReactElement;
   isOpen: boolean;
+  isEditModal?: boolean; // New prop to indicate if it's an edit modal
 }
 
-const Modal: React.FC<ModalProps> = ({label,content,isOpen,close}) => {
+const Modal: React.FC<ModalProps> = ({label,content,isOpen,close,isEditModal}) => {
   const [showModal, setShowModal] = useState(isOpen);
+  const editModal = useEditPropertyModal
 
   useEffect(() => {
     setShowModal(isOpen);
@@ -28,7 +31,11 @@ const Modal: React.FC<ModalProps> = ({label,content,isOpen,close}) => {
   }
 
   return (
-    <div className="flex items-center justify-center fixed inset-0 z-50 bg-black/60">
+    <div
+      className={`flex items-center justify-center fixed inset-0 z-50 ${
+        isEditModal ? "bg-black/10" : "bg-black/60"
+      }`}
+    >
       <div className="relative w-[90%] md:w-[80%] lg:w-[700px] my-6 mx-auto h-auto">
         <div
           className={`translate duration-600 h-full ${
@@ -39,7 +46,10 @@ const Modal: React.FC<ModalProps> = ({label,content,isOpen,close}) => {
         >
           <div className="w-full h-auto rounded-xl relative flex flex-col bg-white">
             <header className="h-[60px] flex items-center p-6 rounded-t justify-center relative border-b">
-              <div onClick={handleClose} className="p-3 absolute left-3 hover:bg-gray-300 rounded-full cursor-pointer">
+              <div
+                onClick={handleClose}
+                className="p-3 absolute left-3 hover:bg-gray-300 rounded-full cursor-pointer"
+              >
                 <svg
                   fill="none"
                   viewBox="0 0 24 24"
