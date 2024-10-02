@@ -35,6 +35,7 @@ const PropertyListItem: React.FC<PropertyProps> = ({
     autoplaySpeed: 3000,
     arrows: true,
   };
+  
 
   const images = [
     property.image_url,
@@ -89,7 +90,7 @@ const PropertyListItem: React.FC<PropertyProps> = ({
         {showEditDeleteButtons && (
           <div className="flex justify-between mt-4">
             <button
-              onClick={editProperty.open} // Open the modal when clicked
+              onClick={() => editProperty.open(property)} // Open the modal when clicked
               className="flex items-center px-4 py-2 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition"
             >
               <MdEdit className="w-5 h-5 mr-2" />
@@ -106,7 +107,7 @@ const PropertyListItem: React.FC<PropertyProps> = ({
         )}
       </div>
       {editProperty.isOpen && (
-        <EditPropertyModal property={property}/>
+        <EditPropertyModal property={editProperty.property} /> // Pass the selected property to the modal
       )}
     </>
   );

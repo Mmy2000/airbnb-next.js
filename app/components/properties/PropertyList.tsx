@@ -14,9 +14,11 @@ import React from "react";
 import { SelectCountryValue } from "../forms/SelectCountry";
 
 export type PropertyType = {
+  country_code: string;
   id: string;
   title: string;
   image_url: string;
+  images?: [];
   price_per_night: number;
   property_images: string;
   is_favorite: boolean;
