@@ -29,7 +29,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
   const [realtimeMessages, setRealtimeMessages] = useState<MessageType[]>([]);
 
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
-    `${process.env.NEXT_PUBLIC_WS_HOST}${conversation.id}/?token=${token}`,
+    `ws://https://wardany2023.pythonanywhere.com/ws/${conversation.id}/?token=${token}`,
     {
       share: false,
       shouldReconnect: () => true,
