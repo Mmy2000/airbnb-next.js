@@ -341,6 +341,34 @@ const Categories: React.FC<CategoriesProps> = ({
           />
           <span className="text-xs">Windmils</span>
         </div>
+        <div
+          onClick={() => handleCategoryChange("Amazing Views")}
+          className={`pb-4 dev2 flex-col items-center space-y-2 border-b-2 ${
+            dataCategory === "Amazing Views" ? "border-gray-800" : "border-white"
+          } opacity-60 hover:border-gray-200 hover:opacity-100`}
+        >
+          <Image
+            src="/5cdb8451-8f75-4c5f-a17d-33ee228e3db8.jpg"
+            alt="Category - Amazing Views"
+            width={20}
+            height={20}
+          />
+          <span className="text-xs">Amazing Views</span>
+        </div>
+        <div
+          onClick={() => handleCategoryChange("OMG!")}
+          className={`pb-4 dev2 flex-col items-center space-y-2 border-b-2 ${
+            dataCategory === "OMG!" ? "border-gray-800" : "border-white"
+          } opacity-60 hover:border-gray-200 hover:opacity-100`}
+        >
+          <Image
+            src="/5cdb8451-8f75-4c5f-a17d-33ee228e3db8.jpg"
+            alt="Category - OMG!"
+            width={20}
+            height={20}
+          />
+          <span className="text-xs">OMG!</span>
+        </div>
         {/* Add remaining categories here in similar manner */}
       </Slider>
     </div>

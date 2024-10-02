@@ -290,7 +290,7 @@ const Categories = () => {
   const scrollableCategories = categoryItems.slice(1);
 
   return (
-    <div className="pt-3 flex pb-3">
+    <div className="pt-3 cursor-pointer flex pb-3">
       {/* Fixed Categories */}
       <div className="flex me-8  mb-4">
         <div
