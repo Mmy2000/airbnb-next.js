@@ -8,11 +8,17 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import SkeletonLoader from "@/app/components/SkeletonLoader";
 import Slider from "react-slick";
+import useLoginModal from "@/app/hooks/useLoginModal";
+
 
 const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
   const [property, setProperty] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string | null>(null);
+  const loginModal = useLoginModal()
+  const handleLoginClick = () => {
+    loginModal.open(); // Open login modal when userId is not present
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -96,21 +102,39 @@ const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
           <hr />
 
           {/* Host Information */}
-          <Link
-            href={`/landlords/${property.landlord.id}`}
-            className="py-6 flex items-center space-x-4"
-          >
-            <Image
-              src={property.landlord.avatar_url || `/profile_pic_1.jpg`}
-              width={50}
-              height={50}
-              className="rounded-full"
-              alt={property.landlord.name}
-            />
-            <p>
-              <strong>{property.landlord.name}</strong> is your host
-            </p>
-          </Link>
+          {userId ? (
+            <Link
+              href={`/landlords/${property.landlord.id}`}
+              className="py-6 flex items-center space-x-4"
+            >
+              <Image
+                src={property.landlord.avatar_url || `/profile_pic_1.jpg`}
+                width={50}
+                height={50}
+                className="rounded-full"
+                alt={property.landlord.name}
+              />
+              <p>
+                <strong>{property.landlord.name}</strong> is your host
+              </p>
+            </Link>
+          ) : (
+            <div
+              onClick={handleLoginClick}
+              className="py-6 flex items-center space-x-4 cursor-pointer"
+            >
+              <Image
+                src={property.landlord.avatar_url || `/profile_pic_1.jpg`}
+                width={50}
+                height={50}
+                className="rounded-full"
+                alt={property.landlord.name}
+              />
+              <p>
+                <strong>{property.landlord.name}</strong> is your host
+              </p>
+            </div>
+          )}
 
           <hr />
 
