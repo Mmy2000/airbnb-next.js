@@ -379,7 +379,6 @@ const EditPropertyModal = ({ property }: EditPropertyModalProps) => {
                 onChange={setImages}
               />
             </div>
-            
           </div>
         </>
       )}
@@ -391,6 +390,7 @@ const EditPropertyModal = ({ property }: EditPropertyModalProps) => {
             label="Previous"
             className="bg-black hover:bg-gray-800"
             onClick={() => setCurrentStep(currentStep - 1)}
+            disabled={loading}
           />
         )}
         {currentStep < totalSteps && (
@@ -398,6 +398,7 @@ const EditPropertyModal = ({ property }: EditPropertyModalProps) => {
             label="Next"
             className="bg-airbnb hover:bg-airbnb-dark"
             onClick={() => setCurrentStep(currentStep + 1)}
+            disabled={loading}
           />
         )}
         {currentStep === totalSteps && (
