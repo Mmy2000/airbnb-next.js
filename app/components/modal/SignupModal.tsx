@@ -7,10 +7,12 @@ import useSignupModal from "@/app/hooks/useSignupModal";
 import apiService from "@/app/services/apiService";
 import { handleLogin } from "@/app/lib/actions";
 import { toast } from "react-toastify";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 const SignupModal = () => {
   const router = useRouter();
   const signupModal = useSignupModal();
+  const loginModal = useLoginModal()
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
@@ -32,7 +34,9 @@ const SignupModal = () => {
       handleLogin(response.user.pk, response.access, response.refresh);
       toast.success("Signed in successfully");
       signupModal.close();
-      router.push("/profile");
+      // loginModal.open()
+      // router.push("/profile")
+
     } else {
       const tmpErrors: string[] = Object.values(response).map((error: any) => {
         return error;
