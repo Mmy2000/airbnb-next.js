@@ -196,14 +196,6 @@ const EditPropertyModal = ({ property }: EditPropertyModalProps) => {
     }
   };
 
-
-
-  console.log("image",previewImage);
-  console.log("images",previewImages);
-  
-
-
-
   const submitForm = async () => {
     setLoading(true);
     if (
