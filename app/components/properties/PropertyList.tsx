@@ -186,7 +186,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
           markFavorite={(is_favorite: boolean) =>
             markFavorite(property.id, is_favorite)
           }
-          onDelete={() => showDeleteConfirmation(property.id)} // Use the new function
+          onDelete={() => showDeleteConfirmation(property.id)} // Use the new functionz
           showEditDeleteButtons={showEditDeleteButtons} // Pass prop here
         />
       ))}

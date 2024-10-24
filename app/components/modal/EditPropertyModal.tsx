@@ -130,7 +130,7 @@ const EditPropertyModal = ({ property }: EditPropertyModalProps) => {
     setLoading(true)
     const fetchPropertyDetails = async () => {
       try {
-        const response = await apiService.get(`/api/properties/${property.id}/`);
+        const response = await apiService.get(`/api/properties/${property}/`);
         
         if (response) {
           const {
