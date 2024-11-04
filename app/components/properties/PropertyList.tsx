@@ -24,6 +24,7 @@ export type PropertyType = {
   is_favorite: boolean;
   description?: string;
   category?: string;
+  city?: string;
   bedrooms?: number;
   bathrooms?: number;
   guests?: number;
@@ -54,6 +55,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
   const checkinDate = searchModal.query.checkIn;
   const checkoutDate = searchModal.query.checkOut;
   const category = searchModal.query.category;
+  const city = searchModal.query.city;
 
   const [properties, setProperties] = useState<PropertyType[]>([]);
   const [loading, setLoading] = useState(true); // Loading state
@@ -117,6 +119,9 @@ const PropertyList: React.FC<PropertyListProps> = ({
 
       if (country) {
         urlQuery += "&country=" + country;
+      }
+      if (city) {
+        urlQuery += "&city=" + city;
       }
 
       if (numGuests) {

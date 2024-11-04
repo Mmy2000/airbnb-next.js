@@ -7,8 +7,15 @@ import ConfirmModal from "../components/modal/ConfirmModal";
 import { toast } from "react-toastify";
 
 // Assuming this is where the API service function is located
+interface MyReservationsClientProps {
+  reservations: any[]; // Ideally, replace 'any' with a more specific type if possible
+  userId: string | null; // Since `getUserId` may return null, include null in the type
+}
 
-const MyReservationsClient = ({ reservations }: { reservations: any[] }) => {
+const MyReservationsClient: React.FC<MyReservationsClientProps> = ({
+  reservations,
+  userId,
+}) => {
   const [loading, setLoading] = useState(false); // To handle loading state
   const [reservationList, setReservationList] = useState(reservations); // Keep track of the reservation list
   const [showModal, setShowModal] = useState(false); // To show/hide modal
@@ -69,71 +76,78 @@ const MyReservationsClient = ({ reservations }: { reservations: any[] }) => {
       <h1 className="my-6 text-4xl font-bold text-gray-900">My Reservations</h1>
 
       {/* Reservations Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {reservationList.map((reservation: any) => (
-          <div
-            key={reservation.property.id}
-            className="p-5 grid grid-cols-1 lg:grid-cols-4 gap-6 shadow-lg border border-gray-200 rounded-lg hover:shadow-xl transition-shadow"
-          >
-            {/* Image Section */}
-            <div className="col-span-2">
-              <div className="relative overflow-hidden aspect-square rounded-lg">
-                <Image
-                  fill
-                  src={reservation.property.image_url}
-                  className="hover:scale-105 object-cover transition-transform duration-300 ease-in-out"
-                  alt={reservation.property.title}
-                />
+      {userId ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {reservationList.map((reservation: any) => (
+            <div
+              key={reservation.property.id}
+              className="p-5 grid grid-cols-1 lg:grid-cols-4 gap-6 shadow-lg border border-gray-200 rounded-lg hover:shadow-xl transition-shadow"
+            >
+              {/* Image Section */}
+              <div className="col-span-2">
+                <div className="relative overflow-hidden aspect-square rounded-lg">
+                  <Image
+                    fill
+                    src={reservation.property.image_url}
+                    className="hover:scale-105 object-cover transition-transform duration-300 ease-in-out"
+                    alt={reservation.property.title}
+                  />
+                </div>
+              </div>
+
+              {/* Details Section */}
+              <div className="col-span-2 flex flex-col justify-between">
+                <div>
+                  <h2 className="mb-3 text-xl font-semibold text-gray-700">
+                    {reservation.property.title},
+                    <span className="ml-1">{reservation.property.country}</span>
+                  </h2>
+
+                  <p className="mb-2 text-sm text-gray-600">
+                    <strong className="text-gray-800">Check-in:</strong>{" "}
+                    {reservation.start_date}
+                  </p>
+                  <p className="mb-2 text-sm text-gray-600">
+                    <strong className="text-gray-800">Check-out:</strong>{" "}
+                    {reservation.end_date}
+                  </p>
+                  <p className="mb-2 text-sm text-gray-600">
+                    <strong className="text-gray-800">Nights:</strong>{" "}
+                    {reservation.number_of_nights}
+                  </p>
+                  <p className="mb-2 text-sm text-gray-600">
+                    <strong className="text-gray-800">Total Price:</strong> $
+                    {reservation.total_price}
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex col-span-4 justify-between space-x-4">
+                <Link
+                  href={`/properties/${reservation.property.id}`}
+                  className="inline-block py-2 px-4 bg-red-500 text-white text-center rounded-lg hover:bg-red-600 transition-colors"
+                >
+                  View Details
+                </Link>
+                <button
+                  onClick={() => openModal(reservation.id)}
+                  className="inline-block py-2 px-4 bg-gray-300 text-gray-800 text-center rounded-lg hover:bg-gray-400 transition-colors"
+                  disabled={loading && currentId === reservation.id}
+                >
+                  {loading && currentId === reservation.id
+                    ? "Cancelling..."
+                    : "Cancel"}
+                </button>
               </div>
             </div>
-
-            {/* Details Section */}
-            <div className="col-span-2 flex flex-col justify-between">
-              <div>
-                <h2 className="mb-3 text-xl font-semibold text-gray-700">
-                  {reservation.property.title}
-                </h2>
-
-                <p className="mb-2 text-sm text-gray-600">
-                  <strong className="text-gray-800">Check-in:</strong>{" "}
-                  {reservation.start_date}
-                </p>
-                <p className="mb-2 text-sm text-gray-600">
-                  <strong className="text-gray-800">Check-out:</strong>{" "}
-                  {reservation.end_date}
-                </p>
-                <p className="mb-2 text-sm text-gray-600">
-                  <strong className="text-gray-800">Nights:</strong>{" "}
-                  {reservation.number_of_nights}
-                </p>
-                <p className="mb-2 text-sm text-gray-600">
-                  <strong className="text-gray-800">Total Price:</strong> $
-                  {reservation.total_price}
-                </p>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex col-span-4 justify-between space-x-4">
-              <Link
-                href={`/properties/${reservation.property.id}`}
-                className="inline-block py-2 px-4 bg-red-500 text-white text-center rounded-lg hover:bg-red-600 transition-colors"
-              >
-                View Details
-              </Link>
-              <button
-                onClick={() => openModal(reservation.id)}
-                className="inline-block py-2 px-4 bg-gray-300 text-gray-800 text-center rounded-lg hover:bg-gray-400 transition-colors"
-                disabled={loading && currentId === reservation.id}
-              >
-                {loading && currentId === reservation.id
-                  ? "Cancelling..."
-                  : "Cancel"}
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <main className="max-w-[1200px] max-auto px-6 py-12">
+          <p>You need to be authenticated...</p>
+        </main>
+      )}
 
       {/* Confirm Modal */}
       <ConfirmModal

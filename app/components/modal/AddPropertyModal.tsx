@@ -26,6 +26,7 @@ const AddPropertyModal = () => {
   const [dataBathrooms, setDataBathrooms] = useState("");
   const [dataGuests, setDataGuests] = useState("");
   const [dataCountry, setDataCountry] = useState<SelectCountryValue>();
+  const [dataCity, setDataCity] = useState("");
   const [dataImage, setDataImage] = useState<File | null>(null);
   const [dataImages, setDataImages] = useState<File[]>([]);
   const addPropertyModal = useAddPropertyModal();
@@ -57,6 +58,7 @@ const AddPropertyModal = () => {
       dataDescription &&
       dataPrice &&
       dataCountry &&
+      dataCity &&
       dataImage &&
       dataImages
     ) {
@@ -68,6 +70,7 @@ const AddPropertyModal = () => {
       formData.append("bedrooms", dataBedrooms);
       formData.append("bathrooms", dataBathrooms);
       formData.append("guests", dataGuests);
+      formData.append("city", dataCity);
       formData.append("country", dataCountry.label);
       formData.append("country_code", dataCountry.value);
       formData.append("image", dataImage);
@@ -198,6 +201,15 @@ const AddPropertyModal = () => {
               value={dataCountry}
               onChange={(value) => setDataCountry(value as SelectCountryValue)}
             />
+            <div className="flex flex-col space-y-2">
+              <label>City</label>
+              <input
+                type="text"
+                value={dataCity}
+                onChange={(e) => setDataCity(e.target.value)}
+                className="w-full p-4 border border-gray-600 rounded-xl"
+              />
+            </div>
           </div>
         </>
       ) : (

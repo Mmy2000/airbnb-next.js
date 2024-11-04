@@ -77,7 +77,9 @@ const PropertyListItem: React.FC<PropertyProps> = ({
         </div>
         <div onClick={() => router.push(`/properties/${property.id}`)}>
           <div className="mt-2">
-            <p className="text-lg font-bold">{property.title}</p>
+            <p className="text-lg font-bold">
+              {property.title},<span className="ml-1">{property.country}</span>
+            </p>
           </div>
           <div className="mt-2">
             <p className="text-sm text-gray-500">

@@ -5,11 +5,8 @@ import apiService from "../services/apiService";
 import Spinner from "../components/Spinner";
 import useEditProfileModal from "../hooks/useEditProfileModal";
 import EditProfileModal from "../components/modal/EditProfileModal";
-import { useRouter, useSearchParams } from "next/navigation";
 
 const Profile = () => {
-  const router = useRouter();
-  const params = useSearchParams();
   const [profile, setProfile] = useState<any>(null); // Profile data state
   const [loading, setLoading] = useState<boolean>(true); // Loading state
   const [error, setError] = useState<string | null>(null); // Error state

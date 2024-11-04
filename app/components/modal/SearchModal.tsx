@@ -29,6 +29,7 @@ const SearchModal = () => {
   const [numGuests, setNumGuests] = useState<string>("1");
   const [numBedrooms, setNumBedrooms] = useState<string>("0");
   const [country, setCountry] = useState<SelectCountryValue>();
+  const [city, setCity] = useState<string>("");
   const [numBathrooms, setNumBathrooms] = useState<string>("0");
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
@@ -41,6 +42,7 @@ const SearchModal = () => {
   const closeAndSearch = () => {
     const newSearchQuery: SearchQuery = {
       country: country?.label,
+      city: city,
       checkIn: dateRange.startDate,
       checkOut: dateRange.endDate,
       guests: parseInt(numGuests),
@@ -52,6 +54,8 @@ const SearchModal = () => {
     searchModal.setQuery(newSearchQuery);
     searchModal.close();
   };
+  console.log(searchModal.query);
+  
 
   const _setDateRange = (selection: Range) => {
     if (searchModal.step === "checkin") {
@@ -69,10 +73,23 @@ const SearchModal = () => {
       <h2 className="mb-4 text-2xl font-semibold text-gray-800">
         {stepMessages.location}
       </h2>
-      <SelectCountry
-        value={country}
-        onChange={(value) => setCountry(value as SelectCountryValue)}
-      />
+      <div className="space-y-4">
+        <SelectCountry
+          value={country}
+          onChange={(value) => setCountry(value as SelectCountryValue)}
+        />
+        <div>
+          <label className="block mb-1 text-gray-700">Enter your City:</label>
+          <input
+            type="text"
+            value={city}
+            placeholder="Enter your City..."
+            onChange={(e) => setCity(e.target.value)}
+            className="w-full h-14 px-4 border border-gray-300 rounded-lg shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+        </div>
+      </div>
+
       <div className="mt-6 flex flex-row gap-4">
         <CustomButton
           label="Check in date ->"
