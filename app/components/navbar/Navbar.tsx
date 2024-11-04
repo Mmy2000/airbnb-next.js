@@ -8,7 +8,7 @@ import { getUserId } from "@/app/lib/actions";
 const Navbar = async () => {
   const userId = await getUserId();
   return (
-    <nav className="w-full fixed top-0 left-0 py-3 bg-white z-20 shadow-sm transition-all duration-300">
+    <nav className="w-full fixed top-0 left-0 py-2  bg-white z-20 shadow-sm transition-all duration-300">
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo Section */}
@@ -16,8 +16,8 @@ const Navbar = async () => {
             <Image
               src="/Airbnb_Logo.png"
               alt="DjangoBnb logo"
-              width={120}
-              height={36}
+              width={150}
+              height={38}
               className="hover:opacity-90 transition-opacity duration-300"
             />
           </Link>

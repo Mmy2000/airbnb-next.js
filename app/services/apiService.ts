@@ -8,7 +8,7 @@ const apiService = {
         console.log("Access Token:", token);
 
         return new Promise((resolve, reject) => {
-            fetch(`https://wardany2023.pythonanywhere.com${url}`, {
+            fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -32,7 +32,7 @@ const apiService = {
         const token = await getAccessToken();
 
         return new Promise((resolve, reject) => {
-            fetch(`https://wardany2023.pythonanywhere.com${url}`, {
+            fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`, {
                 method: 'POST',
                 body: data,
                 headers: {
@@ -55,7 +55,7 @@ const apiService = {
         const token = await getAccessToken();
 
         return new Promise((resolve, reject) => {
-            fetch(`https://wardany2023.pythonanywhere.com${url}`, {
+            fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`, {
                 method: 'PUT',
                 body: data,
                 headers: {
@@ -78,7 +78,7 @@ const apiService = {
         const token = await getAccessToken();
 
         return new Promise((resolve, reject) => {
-            fetch(`https://wardany2023.pythonanywhere.com${url}`, {
+            fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`, {
                 method: 'DELETE',
                 body: data,
                 headers: {
@@ -100,7 +100,7 @@ const apiService = {
         console.log('post', url, data);
 
         return new Promise((resolve, reject) => {
-            fetch(`https://wardany2023.pythonanywhere.com${url}`, {
+            fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`, {
                 method: 'POST',
                 body: data,
                 headers: {

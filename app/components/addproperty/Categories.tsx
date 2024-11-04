@@ -244,18 +244,18 @@ const Categories: React.FC<CategoriesProps> = ({
           <span className="text-xs">Beach</span>
         </div>
         <div
-          onClick={() => handleCategoryChange("Villas")}
+          onClick={() => handleCategoryChange("Rooms")}
           className={`pb-4 dev2 flex-col items-center space-y-2 border-b-2 ${
-            dataCategory === "Villas" ? "border-gray-800" : "border-white"
+            dataCategory === "Rooms" ? "border-gray-800" : "border-white"
           } opacity-60 hover:border-gray-200 hover:opacity-100`}
         >
           <Image
             src="/8e507f16-4943-4be9-b707-59bd38d56309.jpg"
-            alt="Category - Villas"
+            alt="Category - Rooms"
             width={20}
             height={20}
           />
-          <span className="text-xs">Villas</span>
+          <span className="text-xs">Rooms</span>
         </div>
         <div
           onClick={() => handleCategoryChange("Tiny homes")}

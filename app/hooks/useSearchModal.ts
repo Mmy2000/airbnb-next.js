@@ -2,9 +2,10 @@ import { create } from "zustand";
 
 export type SearchQuery = {
     country: string | undefined;
+    city: string | undefined;
     checkIn: Date | undefined;
     checkOut: Date | undefined;
-    guests: Number;
+    guests: number;
     bathrooms: Number;
     bedrooms: Number;
     category: string;
@@ -27,9 +28,10 @@ const useSearchModal = create<SearchModalStore>((set) => ({
     setQuery: (query: SearchQuery) => set({query: query}),
     query: {
         country: '',
+        city: '',
         checkIn: undefined,
         checkOut: undefined,
-        guests: 1,
+        guests: 0,
         bedrooms: 0,
         bathrooms: 0,
         category: ''

@@ -229,6 +229,7 @@ const Categories = () => {
 
     const query: SearchQuery = {
       country: searchModal.query.country,
+      city: searchModal.query.city,
       checkIn: searchModal.query.checkIn,
       checkOut: searchModal.query.checkOut,
       guests: searchModal.query.guests,
@@ -272,7 +273,7 @@ const Categories = () => {
   const categoryItems = [
     { name: "All", image: "/3e5243c8-4d15-4c6b-97e3-7ba2bb7bb880.png" },
     { name: "Beach", image: "/icn_category_beach.jpeg" },
-    { name: "Villas", image: "/8e507f16-4943-4be9-b707-59bd38d56309.jpg" },
+    { name: "Rooms", image: "/8e507f16-4943-4be9-b707-59bd38d56309.jpg" },
     { name: "Tiny homes", image: "/3271df99-f071-4ecf-9128-eb2d2b1f50f0.jpg" },
     { name: "OMG!", image: "/c8e2ed05-c666-47b6-99fc-4cb6edcde6b4.jpg" },
     { name: "Homes", image: "/7630c83f-96a8-4232-9a10-0398661e2e6f.jpg" },

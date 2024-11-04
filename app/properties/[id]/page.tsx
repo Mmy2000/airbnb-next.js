@@ -79,7 +79,7 @@ const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
                 <Image
                   src={image}
                   fill
-                  className="object-cover"
+                  className="w-full h-full object-contain"
                   alt={`Property Image ${index + 1}`}
                 />
               )}
@@ -92,7 +92,9 @@ const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         {/* Left Content (Property Details) */}
         <div className="py-6 pr-6 col-span-3">
-          <h1 className="mb-4 text-4xl">{property.title}</h1>
+          <h1 className="mb-4 text-4xl">
+            {property.title},{property.country}
+          </h1>
 
           <span className="mb-6 block text-lg text-gray-600">
             {property.guests} guests - {property.bedrooms} bedrooms -{" "}
@@ -139,7 +141,10 @@ const PropertyDetailPage = ({ params }: { params: { id: string } }) => {
           <hr />
 
           {/* Property Description */}
-          <p className="mt-6 text-lg">{property.description}</p>
+          <div
+            className="mt-6 text-lg"
+            dangerouslySetInnerHTML={{ __html: property.description }}
+          />
         </div>
 
         {/* Sidebar Component (Reservation) */}

@@ -6,7 +6,7 @@ export async function handleRefresh() {
 
     const refreshToken = await getRefreshToken();
 
-    const token = await fetch('http://localhost:8000/api/auth/token/refresh/', {
+    const token = await fetch(`http://localhost:8000/api/auth/token/refresh/`, {
         method: 'POST',
         body: JSON.stringify({
             refresh: refreshToken
