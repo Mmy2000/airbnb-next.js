@@ -15,7 +15,7 @@ const MyFavoritesPage = async () => {
   return (
     <main className="max-w-[1200px] mx-auto px-6 pb-12">
       {/* Navigation (Breadcrumb) */}
-      <nav className="text-sm mb-6 text-gray-500">
+      <nav className="text-sm mb-6 text-gray-500 ">
         <a href="/" className="text-airbnb hover:underline transition-colors">
           Home
         </a>
