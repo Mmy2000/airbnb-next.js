@@ -12,6 +12,7 @@ import { useSearchParams } from "next/navigation";
 import ConfirmModal from "../modal/ConfirmModal"; // Import the ConfirmModal component
 import React from "react";
 import { SelectCountryValue } from "../forms/SelectCountry";
+import Pagination from "../shared/Pagination";
 
 export type PropertyType = {
   country_code: string;
@@ -62,6 +63,10 @@ const PropertyList: React.FC<PropertyListProps> = ({
   const [propertyToDelete, setPropertyToDelete] = useState<string | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [meta, setMeta] = useState<any>(null);
+
+
   const markFavorite = (id: string, is_favorite: boolean) => {
     const tmpProperties = properties.map((property: PropertyType) => {
       if (userId) {
@@ -105,68 +110,46 @@ const PropertyList: React.FC<PropertyListProps> = ({
     }
   };
 
-  const getProperties = async () => {
-    setLoading(true); // Start loading
-
-    let url = "/api/properties/";
+  const getProperties = async (page = 1) => {
+    setLoading(true);
+    let url = `/api/properties/?page=${page}`;
 
     if (landlord_id) {
-      url += `?landlord_id=${landlord_id}`;
+      url += `&landlord_id=${landlord_id}`;
     } else if (favorites) {
-      url += "?is_favorites=true";
+      url += "&is_favorites=true";
     } else {
       let urlQuery = "";
 
-      if (country) {
-        urlQuery += "&country=" + country;
-      }
-      if (city) {
-        urlQuery += "&city=" + city;
-      }
+      if (country) urlQuery += `&country=${country}`;
+      if (city) urlQuery += `&city=${city}`;
+      if (numGuests) urlQuery += `&numGuests=${numGuests}`;
+      if (numBedrooms) urlQuery += `&numBedrooms=${numBedrooms}`;
+      if (numBathrooms) urlQuery += `&numBathrooms=${numBathrooms}`;
+      if (category) urlQuery += `&category=${category}`;
+      if (checkinDate)
+        urlQuery += `&checkin=${format(checkinDate, "yyyy-MM-dd")}`;
+      if (checkoutDate)
+        urlQuery += `&checkout=${format(checkoutDate, "yyyy-MM-dd")}`;
 
-      if (numGuests) {
-        urlQuery += "&numGuests=" + numGuests;
-      }
-
-      if (numBedrooms) {
-        urlQuery += "&numBedrooms=" + numBedrooms;
-      }
-
-      if (numBathrooms) {
-        urlQuery += "&numBathrooms=" + numBathrooms;
-      }
-
-      if (category) {
-        urlQuery += "&category=" + category;
-      }
-
-      if (checkinDate) {
-        urlQuery += "&checkin=" + format(checkinDate, "yyyy-MM-dd");
-      }
-
-      if (checkoutDate) {
-        urlQuery += "&checkout=" + format(checkoutDate, "yyyy-MM-dd");
-      }
-
-      if (urlQuery.length) {
-        console.log("Query:", urlQuery);
-
-        urlQuery = "?" + urlQuery.substring(1);
-
-        url += urlQuery;
-      }
+      if (urlQuery.length) url += urlQuery;
     }
 
     const tmpProperties = await apiService.get(url);
-
     setProperties(
       tmpProperties.data.map((property: PropertyType) => {
         property.is_favorite = tmpProperties.favorites.includes(property.id);
         return property;
       })
     );
-    setLoading(false); // Stop loading
+    setMeta(tmpProperties.meta);
+    setCurrentPage(tmpProperties.meta.current_page);
+    setLoading(false);
   };
+
+  console.log("Meta", meta);
+  
+
 
   const showDeleteConfirmation = (propertyId: string) => {
     setPropertyToDelete(propertyId); // Store the property to delete
@@ -174,7 +157,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
   };
 
   useEffect(() => {
-    getProperties();
+    getProperties(1);
   }, [category, searchModal.query, params]);
 
   if (loading) {
@@ -184,17 +167,22 @@ const PropertyList: React.FC<PropertyListProps> = ({
 
   return (
     <>
-      {properties.map((property) => (
-        <PropertyListItem
-          key={property.id}
-          property={property}
-          markFavorite={(is_favorite: boolean) =>
-            markFavorite(property.id, is_favorite)
-          }
-          onDelete={() => showDeleteConfirmation(property.id)} // Use the new functionz
-          showEditDeleteButtons={showEditDeleteButtons} // Pass prop here
-        />
-      ))}
+        {properties.map((property) => (
+          <PropertyListItem
+            key={property.id}
+            property={property}
+            markFavorite={(is_favorite: boolean) =>
+              markFavorite(property.id, is_favorite)
+            }
+            onDelete={() => showDeleteConfirmation(property.id)} // Use the new functionz
+            showEditDeleteButtons={showEditDeleteButtons} // Pass prop here
+          />
+        ))}
+        {meta && (
+          <div className="w-full justify-center">
+            <Pagination meta={meta} onPageChange={getProperties} />
+          </div>
+        )}
 
       {/* Render the confirmation modal */}
       <ConfirmModal
