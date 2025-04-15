@@ -8,7 +8,6 @@ import { MessageType } from "@/app/inbox/[id]/page";
 import { UserType } from "@/app/inbox/page";
 import React from "react";
 
-
 interface ConversationDetailProps {
   token: string;
   userId: string;
@@ -27,6 +26,11 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
   const myUser = conversation.users?.find((user) => user.id == userId);
   const otherUser = conversation.users?.find((user) => user.id != userId);
   const [realtimeMessages, setRealtimeMessages] = useState<MessageType[]>([]);
+  const [typingUser, setTypingUser] = useState<string | null>(null);
+  const [isTyping, setIsTyping] = useState(false);
+
+  // Timer for typing timeout
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
     `${process.env.NEXT_PUBLIC_WS_HOST}/ws/${conversation.id}/?token=${token}`,
@@ -44,39 +48,65 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
     if (
       lastJsonMessage &&
       typeof lastJsonMessage === "object" &&
-      "name" in lastJsonMessage &&
-      "body" in lastJsonMessage
+      "event" in lastJsonMessage
     ) {
-      const message: MessageType = {
-        id: "",
-        name: lastJsonMessage.name as string,
-        body: lastJsonMessage.body as string,
-        sent_to: otherUser as UserType,
-        created_by: myUser as UserType,
-        conversationId: conversation.id,
-      };
+      const event = (lastJsonMessage as any).event;
 
-      setRealtimeMessages((realtimeMessages) => [...realtimeMessages, message]);
+      if (event === "typing" && "name" in lastJsonMessage) {
+        const name = (lastJsonMessage as any).name as string;
+
+        if (name !== myUser?.name) {
+          setTypingUser(name);
+          setIsTyping(true);
+
+          // Clear previous timeout
+          if (typingTimeoutRef.current) {
+            clearTimeout(typingTimeoutRef.current);
+          }
+
+          // Set new timeout to stop showing "typing"
+          typingTimeoutRef.current = setTimeout(() => {
+            setIsTyping(false);
+            setTypingUser(null);
+          }, 3000);
+        }
+      }
+
+      if (
+        event === "chat_message" &&
+        "name" in lastJsonMessage &&
+        "body" in lastJsonMessage
+      ) {
+        const name = (lastJsonMessage as any).name as string;
+        const body = (lastJsonMessage as any).body as string;
+
+        const message: MessageType = {
+          id: "",
+          name,
+          body,
+          sent_to: otherUser as UserType,
+          created_by: myUser as UserType,
+          conversationId: conversation.id,
+        };
+
+        setRealtimeMessages((prev) => [...prev, message]);
+        scrollToBottom();
+      }
     }
-
-    scrollToBottom();
   }, [lastJsonMessage]);
 
-  const sendMessage = async () => {
-    console.log("sendMessage"),
-      sendJsonMessage({
-        event: "chat_message",
-        data: {
-          body: newMessage,
-          name: myUser?.name,
-          sent_to_id: otherUser?.id,
-          conversation_id: conversation.id,
-        },
-      });
+  const sendMessage = () => {
+    sendJsonMessage({
+      event: "chat_message",
+      data: {
+        body: newMessage,
+        name: myUser?.name,
+        sent_to_id: otherUser?.id,
+        conversation_id: conversation.id,
+      },
+    });
 
     setNewMessage("");
-
-
     setTimeout(() => {
       scrollToBottom();
     }, 50);
@@ -88,13 +118,35 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewMessage(e.target.value);
+
+    sendJsonMessage({
+      event: "typing",
+      data: {
+        name: myUser?.name,
+      },
+    });
+  };
+
+  const typingUserData = conversation.users?.find((u) => u.name === typingUser);
+
+  useEffect(() => {
+    // Cleanup the timer when the component is unmounted
+    return () => {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <>
       <div
         ref={messagesDiv}
         className="max-h-[400px] overflow-auto flex flex-col space-y-3 p-5 bg-gray-50 border border-gray-200 rounded-lg shadow-md"
       >
-        {messages?.map((message, index) => (
+        {messages.map((message, index) => (
           <div
             key={index}
             className={`w-[75%] py-3 px-5 rounded-xl transition-transform duration-200 ease-in-out ${
@@ -105,7 +157,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
           >
             <div className="flex items-center space-x-3">
               <img
-                src={message?.created_by?.avatar_url || "/profile_pic_1.jpg"}
+                src={message.created_by.avatar_url || "/profile_pic_1.jpg"}
                 alt={message.created_by.name}
                 className="w-10 h-10 rounded-full border border-gray-300 shadow-sm"
               />
@@ -149,21 +201,41 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
             </div>
           </div>
         ))}
+
+        {isTyping && typingUser && typingUserData && (
+          <div className="mt-2 flex items-center space-x-3 px-5">
+            <img
+              src={typingUserData.avatar_url || "/profile_pic_1.jpg"}
+              alt={typingUserData.name}
+              className="w-8 h-8 rounded-full border border-gray-300 shadow-sm"
+            />
+            <div className="flex flex-col">
+              <span className="text-sm font-medium text-gray-600">
+                {typingUserData.name}
+              </span>
+              <div className="flex space-x-1 mt-1">
+                <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:.1s]"></span>
+                <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:.2s]"></span>
+                <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:.3s]"></span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      <div className="mt-5 py-3 px-5 flex border border-gray-300 rounded-lg shadow-md bg-white">
+      <div className="mt-3 py-3 px-5 flex border border-gray-300 rounded-lg shadow-md bg-white">
         <input
           type="text"
           placeholder="Type your message..."
-          className="w-full p-2 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb text-gray-700 transition duration-200"
+          className="w-3/4 p-2 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb text-gray-700 transition duration-200"
           value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
+          onChange={handleInputChange}
         />
 
         <CustomButton
           label="Send"
           onClick={sendMessage}
-          className="ml-4 w-[80px] bg-airbnb text-white font-semibold rounded-lg hover:bg-airbnb-dark active:bg-airbnb-dark transition duration-300 shadow-md"
+          className="ml-4 w-1/4 bg-airbnb text-white font-semibold rounded-lg hover:bg-airbnb-dark active:bg-airbnb-dark transition duration-300 shadow-md"
         />
       </div>
     </>
