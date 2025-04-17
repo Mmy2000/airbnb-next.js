@@ -7,6 +7,9 @@ import useWebSocket, { ReadyState } from "react-use-websocket";
 import { MessageType } from "@/app/inbox/[id]/page";
 import { UserType } from "@/app/inbox/page";
 import React from "react";
+import { toast } from "react-toastify";
+import { useNotification } from "../context/NotificationContext";
+
 
 interface ConversationDetailProps {
   token: string;
@@ -31,6 +34,8 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
 
   // Timer for typing timeout
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { notifyInfo,notifySuccess } = useNotification();
+
 
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
     `${process.env.NEXT_PUBLIC_WS_HOST}/ws/${conversation.id}/?token=${token}`,
@@ -90,9 +95,14 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
         };
 
         setRealtimeMessages((prev) => [...prev, message]);
+        // 👉 Show notification (if message not from you)
+        if (name !== myUser?.name) {
+          notifyInfo(`${name} sent you a message`);
+        }
         scrollToBottom();
       }
     }
+    
   }, [lastJsonMessage]);
 
   const sendMessage = () => {
@@ -139,6 +149,13 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
       }
     };
   }, []);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && newMessage.trim()) {
+      sendMessage();
+    }
+  };
+
 
   return (
     <>
@@ -223,11 +240,12 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
         )}
       </div>
 
-      <div className="mt-3 py-3 px-5 flex border border-gray-300 rounded-lg shadow-md bg-white">
+      <div className="mt-3 py-3 px-5 bg-white flex border border-gray-300 rounded-lg shadow-md ">
         <input
+          onKeyDown={handleKeyDown}
           type="text"
           placeholder="Type your message..."
-          className="w-3/4 p-2 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb text-gray-700 transition duration-200"
+          className="w-full p-2 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb text-gray-700 transition duration-200"
           value={newMessage}
           onChange={handleInputChange}
         />
@@ -235,7 +253,10 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
         <CustomButton
           label="Send"
           onClick={sendMessage}
-          className="ml-4 w-1/4 bg-airbnb text-white font-semibold rounded-lg hover:bg-airbnb-dark active:bg-airbnb-dark transition duration-300 shadow-md"
+          disabled={!newMessage.trim()}
+          className={`ml-4 w-[80px] bg-airbnb text-white font-semibold rounded-lg 
+    hover:bg-airbnb-dark active:bg-airbnb-dark transition duration-300 shadow-md 
+    ${!newMessage.trim() ? "opacity-50 cursor-not-allowed" : ""}`}
         />
       </div>
     </>
