@@ -1,5 +1,5 @@
 interface CustomButtonProps {
-  label: string;
+  label: React.ReactNode;
   className?: string;
   onClick?: () => void;
   loading?: boolean; // Add the loading prop
@@ -16,7 +16,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   return (
     <div
       onClick={!loading && !disabled ? onClick : undefined} // Prevent clicks when loading or disabled
-      className={`w-full py-4 bg-airbnb hover:bg-airbnb-dark text-white text-center rounded-xl transition cursor-pointer ${className} ${
+      className={` w-full py-4 bg-airbnb hover:bg-airbnb-dark text-white text-center rounded-xl transition cursor-pointer ${className} ${
         loading || disabled ? "opacity-50 cursor-not-allowed" : ""
       }`}
     >

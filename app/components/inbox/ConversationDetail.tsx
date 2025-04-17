@@ -9,6 +9,7 @@ import { UserType } from "@/app/inbox/page";
 import React from "react";
 import { toast } from "react-toastify";
 import { useNotification } from "../context/NotificationContext";
+import { Send } from "lucide-react";
 
 
 interface ConversationDetailProps {
@@ -245,19 +246,24 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
           onKeyDown={handleKeyDown}
           type="text"
           placeholder="Type your message..."
-          className="w-full p-2 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb text-gray-700 transition duration-200"
+          className=" p-2 w-[90%] bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb text-gray-700 transition duration-200"
           value={newMessage}
           onChange={handleInputChange}
         />
-
-        <CustomButton
-          label="Send"
-          onClick={sendMessage}
-          disabled={!newMessage.trim()}
-          className={`ml-4 w-[80px] bg-airbnb text-white font-semibold rounded-lg 
-    hover:bg-airbnb-dark active:bg-airbnb-dark transition duration-300 shadow-md 
-    ${!newMessage.trim() ? "opacity-50 cursor-not-allowed" : ""}`}
-        />
+        <div className="w-[7%]">
+          <CustomButton
+            label={
+              <div className="flex items-center justify-center space-x-2">
+                <Send size={18} className="ml-1" />
+              </div>
+            }
+            onClick={sendMessage}
+            disabled={!newMessage.trim()}
+            className={`ml-4 bg-airbnb text-white font-semibold rounded-lg 
+        hover:bg-airbnb-dark active:bg-airbnb-dark transition duration-300 shadow-md 
+        ${!newMessage.trim() ? "opacity-50 cursor-not-allowed" : ""}`}
+          />
+        </div>
       </div>
     </>
   );
